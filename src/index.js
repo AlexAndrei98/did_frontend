@@ -40,7 +40,7 @@ sagaMiddleware.run(watchSignup);
 ReactDOM.render(
     <Provider store={store}>
         <React.StrictMode>
-            <BrowserRouter basename="/did_frontend/">
+            <BrowserRouter basename="/did_frontend">
                 <App />
             </BrowserRouter>
         </React.StrictMode>
