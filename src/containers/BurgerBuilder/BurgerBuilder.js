@@ -28,7 +28,7 @@ const BurgerBuilder = (props) => {
     })
 
     const isAuthenticated = useSelector( state => {
-        return state.auth.token != null
+        return state.auth.name != null
     })
 
     const moreIngredient = (type) => dispatch(actions.addIngredients(type));

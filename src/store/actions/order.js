@@ -55,10 +55,10 @@ export const fetchOrdersStart = () => {
     }
 }
 
-export const fetchOrders = (token, userId) => {
+export const fetchOrders = (token, hashedKey) => {
     return {
         type: actionTypes.FETCH_ORDERS,
         token,
-        userId
+        hashedKey
     }
 }

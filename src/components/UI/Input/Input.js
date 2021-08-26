@@ -51,7 +51,7 @@ const input = (props) => {
     let capitalize = (string) => {return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();}
     return (
         <div className={classes.Input}>
-            <h3 className={classes.Label}>{capitalize(props.elementConfig.error)}</h3>
+            <h3 className={classes.Label}>{capitalize(props.elementConfig.name)}</h3>
             <label className={classes.LabelElement}>{props.label}</label>
             {inputElement}
             {validationError}

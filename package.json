@@ -1,7 +1,7 @@
 {
   "name": "did_frontend",
-  "homepage": "http://alexandrei98.github.io/did_frontend",
-  "version": "0.1.0",
+  "homepage": ".",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",

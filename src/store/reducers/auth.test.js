@@ -5,7 +5,7 @@ describe('auth reducer', () => {
     it('should return the initial state', () => {
         expect(reducer(undefined, {})).toEqual({
             token: null,
-            userId: null,
+            hashedKey: null,
             error: null,
             loading: false,
             authRedirectPath: '/'
@@ -15,17 +15,17 @@ describe('auth reducer', () => {
     it('should store the token upon login', () => {
         expect(reducer({
             token: null,
-            userId: null,
+            hashedKey: null,
             error: null,
             loading: false,
             authRedirectPath: '/'
         }, {
             type: actionTypes.AUTH_SUCCESS,
             idToken: 'some-token',
-            userId: 'some-user-id'
+            hashedKey: 'some-user-id'
         })).toEqual({
             token: 'some-token',
-            userId: 'some-user-id',
+            hashedKey: 'some-user-id',
             error: null,
             loading: false,
             authRedirectPath: '/'

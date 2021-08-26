@@ -26,19 +26,12 @@ const Signup = React.lazy( () => {
 
 const App = (props) => {
 
-    const { onTryAutoSignup } = props;
-
-    useEffect( () => {
-        onTryAutoSignup();
-    }, [onTryAutoSignup]);
-
-
     let routes = (
         <Switch>
             <Route path={'/auth'} render={ (props) => <Auth {...props}/>}/>
             <Route path={'/signup'} render={ (props) => <Signup {...props}/>}/>
             <Route exact path={'/'} component={BurgerBuilder}/>
-            <Redirect to='/'/>
+            <Redirect to='/signup'/>
         </Switch>
     );
 
@@ -48,7 +41,6 @@ const App = (props) => {
                 <Route path={'/checkout'} render={ (props) => <Checkout {...props}/>}/>
                 <Route path={'/orders'} render={ (props) => <Orders {...props}/>}/>
                 <Route path={'/logout'} component={Logout}/>
-                <Route path={'/auth'} render={ (props) => <Auth {...props}/>}/>
                 <Route path='/' component={BurgerBuilder}/>
                 <Redirect to='/'/>
             </Switch>
@@ -68,7 +60,7 @@ const App = (props) => {
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.auth.token !== null
+        isAuthenticated: state.auth.name !== null
     }
 }
 

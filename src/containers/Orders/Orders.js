@@ -9,16 +9,16 @@ import Spinner from './../../components/UI/Spinner/Spinner'
 const Orders = () => {
 
     const dispatch = useDispatch();
-    const onFetchOrders = useCallback( (token, userId) => dispatch(orderActions.fetchOrders(token, userId)),[dispatch])
+    const onFetchOrders = useCallback( (token, hashedKey) => dispatch(orderActions.fetchOrders(token, hashedKey)),[dispatch])
 
     const orders = useSelector(state => state.order.orders);
     const loading = useSelector(state => state.order.loading);
-    const token = useSelector(state => state.auth.token);
-    const userId = useSelector(state => state.auth.userId);
+    const token = useSelector(state => state.auth.name);
+    const hashedKey = useSelector(state => state.auth.hashedKey);
 
     useEffect( () => {
-        onFetchOrders(token, userId);
-    }, [onFetchOrders, token, userId])
+        onFetchOrders(token, hashedKey);
+    }, [onFetchOrders, token, hashedKey])
 
     let allOrders = <Spinner />;
     if(!loading) {
