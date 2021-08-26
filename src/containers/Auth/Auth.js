@@ -11,12 +11,13 @@ import * as actions from './../../store/actions/index';
 
 const Auth = () => {
     const [authForm, setAuthForm] = useState({
-        email: {
+        name: {
             elementType: 'input',
             elementConfig: {
-                type: 'email',
+                name: 'name',
+                type: 'name',
                 placeholder: 'Your Email',
-                error: 'email'
+                error: 'name'
             },
             value: '',
             validation: {
@@ -29,6 +30,7 @@ const Auth = () => {
         password: {
             elementType: 'input',
             elementConfig: {
+                name: 'password',
                 type: 'password',
                 placeholder: 'Your Password',
                 error: 'password'
@@ -43,21 +45,20 @@ const Auth = () => {
         }
     });
 
-    const [isSignUp, setIsSignUp] = useState(true);
 
     const loading = useSelector(state => state.auth.loading);
     const error = useSelector(state => state.auth.error);
-    const isAuthenticated = useSelector(state => state.auth.token != null);
+    const isAuthenticated = useSelector(state => state.auth.name != null);
     const buildingBurger = useSelector(state => state.burgerBuilder.building);
     const authRedirectPath = useSelector(state => state.auth.authRedirectPath);
-
+    console.log('isAuthenticated ',isAuthenticated)
     const dispatch = useDispatch();
 
-    const onAuth = (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp));
+    const onAuth = (name, password) => dispatch(actions.auth(name, password));
     const onSetAuthRedirectPath = useCallback(() => dispatch(actions.setAuthRedirectPath('/')), [dispatch]);
 
     useEffect( () => {
-        if(!buildingBurger && authRedirectPath !== '/') {
+        if(authRedirectPath !== '/') {
             onSetAuthRedirectPath()
         }
     }, [onSetAuthRedirectPath, buildingBurger, authRedirectPath])
@@ -77,13 +78,8 @@ const Auth = () => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        onAuth(authForm.email.value, authForm.password.value, isSignUp)
+        onAuth(authForm.name.value, authForm.password.value)
     }
-
-    const switchAuthModeHandler = () => {
-        setIsSignUp(!isSignUp);
-    }
-
 
     const formElementsArray = [];
     for (let key in authForm) {
@@ -114,16 +110,16 @@ const Auth = () => {
     let errorMessage;
     if(error) {
         if(error.message === "EMAIL_NOT_FOUND") {
-            errorMessage = "This email doesn't exist in the base."
+            errorMessage = "This name doesn't exist in the base."
         } else if (error.message === "INVALID_PASSWORD" ||
             error.message === "MISSING_PASSWORD") {
             errorMessage = "The password is invalid."
         } else if (error.message === "USER_DISABLED") {
             errorMessage = "The user account has been disabled by an administrator."
         } else if (error.message === "EMAIL_EXISTS") {
-            errorMessage = "The email address is already in use by another account."
+            errorMessage = "The name address is already in use by another account."
         } else if (error.message === "INVALID_EMAIL") {
-            errorMessage = "The email address is badly formatted."
+            errorMessage = "The name address is badly formatted."
         }
     }
 
@@ -140,9 +136,6 @@ const Auth = () => {
                 {form}
                 <Button btnType='Success'>Submit</Button>
             </form>
-            <Button btnType='Danger' click={switchAuthModeHandler}>
-                Switch to {isSignUp ? "Signin" : "Signup"}
-            </Button>
         </div>
     )
 }

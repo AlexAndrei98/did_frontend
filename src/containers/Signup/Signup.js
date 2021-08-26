@@ -17,6 +17,7 @@ const Signup = () => {
         name: {
             elementType: 'input',
             elementConfig: {
+                name: 'name',
                 type: 'text',
                 placeholder: 'Your Name',
                 error: 'name'
@@ -32,6 +33,7 @@ const Signup = () => {
         password: {
             elementType: 'input',
             elementConfig: {
+                name: 'password',
                 type: 'password',
                 placeholder: 'Your Password',
                 error: 'password'
@@ -47,6 +49,7 @@ const Signup = () => {
         entityType: {
             elementType: 'input',
             elementConfig: {
+                name: 'Entity Type',
                 type: 'text',
                 placeholder: 'Your Entity Type',
                 error: 'type'
@@ -62,6 +65,7 @@ const Signup = () => {
         seed: {
             elementType: 'input',
             elementConfig: {
+                name: 'Seed phrase',
                 type: 'text',
                 placeholder: cypher_words,
                 error: 'seed'

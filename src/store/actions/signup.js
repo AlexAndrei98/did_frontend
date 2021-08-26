@@ -6,11 +6,11 @@ export const signupStart = () => {
     }
 }
 
-export const signupSuccess = (token, userId) => {
+export const signupSuccess = (token, hashedKey) => {
     return {
         type: actionTypes.SIGNUP_SUCCESS,
         token: token,
-        userId: userId
+        hashedKey: hashedKey
     }
 }
 

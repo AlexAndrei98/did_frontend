@@ -27,13 +27,12 @@ export function* signupUserSaga(action) {
     }
     let extended_url;
     extended_url ='/did_create'
-    console.log(modifiedData)
     try {
         const response = yield axios.post(extended_url, modifiedData)
         const data = JSON.parse(response.data.body)
-        console.log()
-        /*this lines set the  state.signup.token and state.signup.userId*/ 
-        yield put(actions.authSuccess(data.name, data.hashed_key))
+        console.log("response data",data)
+        /*this lines set the  state.signup.token and state.signup.hashedKey*/ 
+        yield put(actions.authSuccess(data.name, data.password))
     } catch (error) {
         yield put(actions.signupFail(error.response))
     }

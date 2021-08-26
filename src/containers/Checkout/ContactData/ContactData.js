@@ -16,6 +16,7 @@ const ContactData = props => {
         name: {
             elementType: 'input',
             elementConfig: {
+                name: 'name',
                 type: 'text',
                 placeholder: 'Your Name',
                 error: 'name'
@@ -30,6 +31,7 @@ const ContactData = props => {
         email: {
             elementType: 'input',
             elementConfig: {
+                name: 'email',
                 type: 'email',
                 placeholder: 'Your Email',
                 error: 'email'
@@ -45,6 +47,7 @@ const ContactData = props => {
         street: {
             elementType: 'input',
             elementConfig: {
+                name: 'street',
                 type: 'text',
                 placeholder: 'Your Street',
                 error: 'street'
@@ -59,6 +62,7 @@ const ContactData = props => {
         postalCode: {
             elementType: 'input',
             elementConfig: {
+                name: 'postal code',
                 type: 'text',
                 placeholder: 'Your Postal Code',
                 error: 'postal code'
@@ -76,6 +80,7 @@ const ContactData = props => {
         country: {
             elementType: 'input',
             elementConfig: {
+                name: 'country',
                 type: 'text',
                 placeholder: 'Your Country',
                 error: 'country'
@@ -90,6 +95,7 @@ const ContactData = props => {
         deliveryMethod: {
             elementType: 'select',
             elementConfig: {
+                name: 'delivery method',
                 options: [
                     {value: 'fastest', displayValue: 'Fastest'},
                     {value: 'cheapest', displayValue: 'Cheapest'},
@@ -106,8 +112,8 @@ const ContactData = props => {
     const ings = useSelector(state => state.burgerBuilder.ingredients);
     const price = useSelector(state => state.burgerBuilder.totalPrice);
     const loading = useSelector(state => state.order.loading);
-    const token = useSelector(state => state.auth.token);
-    const userId = useSelector(state => state.auth.userId);
+    const token = useSelector(state => state.auth.name);
+    const hashedKey = useSelector(state => state.auth.hashedKey);
 
     const dispatch = useDispatch();
 
@@ -126,7 +132,7 @@ const ContactData = props => {
             ingredients: ings,
             price: price.toFixed(2),
             orderData: formData,
-            userId: userId
+            hashedKey: hashedKey
         }
 
         onOrderBurger(order, token);

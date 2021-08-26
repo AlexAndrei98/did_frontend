@@ -6,11 +6,11 @@ export const authStart = () => {
     }
 }
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (name, password) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
-        token: token,
-        userId: userId
+        name: name,
+        password: password
     }
 }
 
@@ -24,7 +24,7 @@ export const authFail = (error) => {
 export const logout = () => {
     // localStorage.removeItem("token");
     // localStorage.removeItem("expirationDate");
-    // localStorage.removeItem("userId");
+    // localStorage.removeItem("hashedKey");
     return {
         type: actionTypes.AUTH_INITIATE_LOGOUT
     }
@@ -36,19 +36,12 @@ export const logoutSucceed = () => {
     }
 }
 
-export const checkAuthTimeOut = (expirationTime) => {
-    return {
-        type: actionTypes.AUTH_CHECK_TIMEOUT,
-        expirationTime: expirationTime
-    }
-}
 
-export const auth = (email, password, isSignUp) => {
+export const auth = (name, password) => {
     return {
         type: actionTypes.AUTH_USER,
-        email,
-        password,
-        isSignUp
+        name,
+        password
     }
 }
 
