@@ -23,6 +23,11 @@ const Credentials = (props) => {
         return state.credentials.creating
     })
 
+    const newCredential = useSelector( state => {
+        return state.credentials.newCredential
+    })
+    console.log(newCredential)
+
     const createCredentialStart = ()  => dispatch(actions.createCredentialStart())
 
     let modalHandler
@@ -34,7 +39,7 @@ const Credentials = (props) => {
                 Create new credentials 
             </button>
             <Modal show={creating} close={modalHandler}>
-                adhah
+                {newCredential.issued_date}
             </Modal>
             {table}
         </Aux>
