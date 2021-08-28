@@ -17,8 +17,8 @@ const initialState = {
         issued_to_type : null,
         issued_date : Date(),
         values_count : 1,
-        keys : [""],
-        values: [""]
+        keys : ["keey"],
+        values: ["val"]
         
 
     }
@@ -26,6 +26,11 @@ const initialState = {
 const createCredentialStart = ( state, action ) => {
     return updateObject( state, { creating: true } );
 };
+
+const createCredentialSuccess = ( state, action ) => {
+    return updateObject( state, { creating: false } );
+};
+
 
 const addDataPoint = ( state, action ) => {
     const newKeys = { keys : state.newCredential.keys.push("")}
@@ -62,6 +67,8 @@ const addDataPoint = ( state, action ) => {
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.CREATE_CREDENTIAL_START: return createCredentialStart( state, action );
+        case actionTypes.CREATE_CREDENTIAL_SUCCESS: return createCredentialSuccess( state, action );
+
         default: return state;
     }
 };
