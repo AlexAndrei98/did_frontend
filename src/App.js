@@ -8,10 +8,6 @@ import Logout from "./containers/Auth/Logout/Logout";
 import Spinner from './components/UI/Spinner/Spinner';
 import * as action from './store/actions/index';
 
-const Checkout = React.lazy( () => {
-    return import('./containers/Checkout/Checkout');
-});
-
 const Orders = React.lazy( () => {
     return import('./containers/Orders/Orders');
 });
@@ -22,6 +18,10 @@ const Auth = React.lazy( () => {
 
 const Signup = React.lazy( () => {
     return import("./containers/Signup/Signup");
+});
+
+const Credentials = React.lazy( () => {
+    return import('./containers/Credentials/Credentials');
 });
 
 const App = (props) => {
@@ -38,8 +38,8 @@ const App = (props) => {
     if (props.isAuthenticated) {
         routes = (
             <Switch>
-                <Route path={'/checkout'} render={ (props) => <Checkout {...props}/>}/>
                 <Route path={'/orders'} render={ (props) => <Orders {...props}/>}/>
+                <Route path={'/credentials'} render={ (props) => <Credentials {...props}/>}/>
                 <Route path={'/logout'} component={Logout}/>
                 <Route path='/' component={BurgerBuilder}/>
                 <Redirect to='/'/>
