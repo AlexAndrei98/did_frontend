@@ -137,7 +137,7 @@ const Signup = () => {
                 invalid={!formElement.config.valid}
                 shouldValidate={formElement.config.validation}
                 touched={formElement.config.touched}
-                valueType={formElement.config.elementConfig.error}/>
+                valueType={formElement.config.value}/>
         ))
     )
 

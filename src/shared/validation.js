@@ -25,6 +25,10 @@ export const checkValidity = (value, rules) => {
         const pattern = /^\d+$/;
         isValid = pattern.test(value) && isValid
     }
+    console.log(rules)
+    if (rules.isIn) {
+        isValid = rules.isIn.indexOf(value) >-1
+    }
 
     return isValid;
 }

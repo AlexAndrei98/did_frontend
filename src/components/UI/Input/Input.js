@@ -5,6 +5,8 @@ import classes from './Input.module.css';
 const input = (props) => {
     let inputElement;
     const inputClasses = [classes.InputElement];
+    const selectClasses = [classes.SelectElement];
+
     let validationError;
 
     if (props.invalid && props.shouldValidate && props.touched) {
@@ -30,7 +32,7 @@ const input = (props) => {
         case ('select'):
             inputElement =
                 <select
-                    className={inputClasses.join(' ')}
+                    className={selectClasses.join(' ')}
                     value={props.value}
                     onChange={props.changed}>
                     {props.elementConfig.options.map(option => (
