@@ -3,7 +3,7 @@ import {logoutSaga, authUserSaga, authCheckStateSaga} from './auth';
 import {initIngredientsSaga} from "./burgerBuilder";
 import {purchaseBurgerSaga, fetchOrdersSaga} from "./order";
 import {signupUserSaga} from "./signup";
-import {fetchCredentials} from "./credentials"
+import {fetchCredentials, addDataPoint , deleteDataPoint} from "./credentials"
 
 import * as actionTypes from './../actions/actionTypes';
 
@@ -29,5 +29,7 @@ export function* watchSignup() {
 }
 export function* watchCredentials() {
     yield takeEvery(actionTypes.FETCH_CREDENTIALS_START, fetchCredentials);
+
+
 }
 

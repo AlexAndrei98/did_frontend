@@ -5,23 +5,7 @@ const initialState = {
     credentials: null,
     fetching: false,
     error: false,
-    creating: false,
-    newCredential: {
-        issued_to_name: null,
-        signed: false,
-        issuer_to_hashed_key : null,
-        issuer_to_public_key : null,
-        issuer_to_type: null,
-        issued_to_hashed_key : null,
-        issued_to_public_key : null,
-        issued_to_type : null,
-        issued_date : Date(),
-        values_count : 1,
-        keys : ["keey"],
-        values: ["val"]
-        
-
-    }
+    creating: false
 }
 const createCredentialStart = ( state, action ) => {
     return updateObject( state, { creating: true } );
@@ -36,7 +20,23 @@ const addDataPoint = ( state, action ) => {
     const newKeys = { keys : state.newCredential.keys.push("")}
     const updatedKeys = updateObject( state.newCredential, newKeys );
 
-    const newValues = { values : state.newCredential.keys.push("")}
+    const newValues = { values : state.newCredential.values.push("")}
+    const updatedValues = updateObject( state.newCredential, newValues );
+
+    const newCreds = updateObject( state.newCredential, {values_count: state.newCredential.values_count + 1} );
+
+    const updatedState = {
+        newCredential: newCreds
+    }
+    return updateObject( state, updatedState );
+};
+
+const setDataPoint = ( state, action , value ) => {
+    const newData = state.newCredential.keys[action.index] = value
+    const newKeys = { keys : newData}
+    const updatedKeys = updateObject( state.newCredential, newKeys );
+
+    const newValues = { values : state.newCredential.values.push("")}
     const updatedValues = updateObject( state.newCredential, newValues );
 
     const newCreds = updateObject( state.newCredential, {values_count: state.newCredential.values_count + 1} );
@@ -48,8 +48,21 @@ const addDataPoint = ( state, action ) => {
 };
 
 
+const deleteDataPoint = ( state, action ) => {
+    
+    const newKeys = { keys : state.newCredential.keys.splice(action.index)}
+    const updatedKeys = updateObject( state.newCredential, newKeys );
 
+    const newValues = { values : state.newCredential.values.splice(action.index)}
+    const updatedValues = updateObject( state.newCredential, newValues );
 
+    const newCreds = updateObject( state.newCredential, {values_count: state.newCredential.values_count - 1} );
+
+    const updatedState = {
+        newCredential: newCreds
+    }
+    return updateObject( state, updatedState );
+};
     // body = {
     // 'issued_to_name': 'Alex Andrei'
     // 'issuer_to_hashed_key': 'afjk312kj4jkkj',
