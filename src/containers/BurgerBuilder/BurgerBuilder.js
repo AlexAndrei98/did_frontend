@@ -59,7 +59,7 @@ const BurgerBuilder = (props) => {
             setPurchasing(!purchasing);
         } else {
             onSetRedirect('/credentials')
-            props.history.push('/auth')
+            props.history.push('/credentials')
         }
     }
 

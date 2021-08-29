@@ -24,9 +24,9 @@ export const signupFail = (error) => {
 export const signup = (name, password, entityType, seed) => {
     return {
         type: actionTypes.SIGNUP_USER,
-        name,
-        password,
-        entityType,
-        seed
+        name: name,
+        password:password,
+        entityType: entityType,
+        seed : seed
     }
 }

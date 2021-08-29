@@ -9,7 +9,7 @@ export function* signupUserSaga(action) {
     const signupData = {
         name: action.name,
         password: action.password,
-        type: action.type,
+        entityType: action.entityType,
         seed: action.seed
     }
     console.log(action)
@@ -18,7 +18,7 @@ export function* signupUserSaga(action) {
         'public_key': '--BEGIN PUBLIC KEY ----- 324nk6jk4n6k453yh34b5hj', 
         'private_key': '--BEGIN PRIVATE KEY ----- nvjks34ktn4j2tn4h2baa', 
         'name': signupData.name, 
-        'type': 'TITLE_ORG', 
+        'entityType': signupData.entityType, 
         'password': sha256(action.password),
         'seed_phrase': action.seed.split(" "), 
         'signed_credentials' :{},

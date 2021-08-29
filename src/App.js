@@ -24,6 +24,12 @@ const Credentials = React.lazy( () => {
     return import('./containers/Credentials/Credentials');
 });
 
+
+const Identities = React.lazy( () => {
+    return import('./containers/Identities/Identities');
+});
+
+
 const App = (props) => {
 
     let routes = (
@@ -40,6 +46,7 @@ const App = (props) => {
             <Switch>
                 <Route path={'/orders'} render={ (props) => <Orders {...props}/>}/>
                 <Route path={'/credentials'} render={ (props) => <Credentials {...props}/>}/>
+                <Route path={'/identities'} render={ (props) => <Identities {...props}/>}/>
                 <Route path={'/logout'} component={Logout}/>
                 <Route path='/' component={BurgerBuilder}/>
                 <Redirect to='/'/>

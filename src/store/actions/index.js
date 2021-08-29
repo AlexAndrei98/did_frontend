@@ -44,3 +44,14 @@ export {
     fetchCredentialsSuccess,
     fetchCredentialsFail
 } from './credentials';
+
+
+export {
+    createIdentitiesSuccess,
+    createIdentitiesFail,
+    createIdentitiesStart,
+    fetchIdentities,
+    linkDid,
+    linkDidSuccess,
+    linkDidFail
+} from './identities';

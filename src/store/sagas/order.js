@@ -26,6 +26,7 @@ export function* fetchOrdersSaga(action) {
         }
         yield put(actions.fetchOrdersSuccess(fetchedOrders));
     } catch (error) {
+        console.log(error)
         yield put(actions.fetchOrdersFail(error));
     }
 }
