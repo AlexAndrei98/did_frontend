@@ -26,9 +26,10 @@ export function* authUserSaga(action) {
         yield call([localStorage, 'setItem'], "name", data.name);
         yield call([localStorage, 'setItem'], "hashedKey", data.hashed_key);
         yield call([localStorage, 'setItem'], "password", data.password);
+        yield call([localStorage, 'setItem'], "entityType", data.entityType);
 
         /*this lines set the  state.auth.name and state.auth.hashedKey*/ 
-        yield put(actions.authSuccess(data.name, data.password))
+        yield put(actions.authSuccess(data.name, data.password, data.entityType))
     } catch (error) {
         yield put(actions.authFail(error.response.data.error))
     }
@@ -41,8 +42,9 @@ export function* authCheckStateSaga(action) {
         yield put(actions.logout());
     } else {
         const name = yield call([localStorage, 'getItem'], "name");
-        console.log(name)
         const password = yield call([localStorage, 'getItem'], "password");
-        yield put(actions.authSuccess(name, password));
+        const entityType = yield call([localStorage, 'getItem'], "entityType");
+
+        yield put(actions.authSuccess(name, password,entityType));
     }
 }

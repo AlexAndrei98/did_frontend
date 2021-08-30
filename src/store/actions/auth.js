@@ -6,11 +6,12 @@ export const authStart = () => {
     }
 }
 
-export const authSuccess = (name, password) => {
+export const authSuccess = (name, password, entityTypeUser) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
         name: name,
-        password: password
+        password: password,
+        entityTypeUser : entityTypeUser
     }
 }
 

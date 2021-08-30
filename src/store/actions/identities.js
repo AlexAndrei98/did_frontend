@@ -2,6 +2,12 @@
 import * as actionTypes from './actionTypes';
 
 
+export const initDidsClean = () => {
+    return {
+        type: actionTypes.INIT_DIDS
+    }
+
+}
 
 export const createIdentitiesSuccess = (data) => {
     return {

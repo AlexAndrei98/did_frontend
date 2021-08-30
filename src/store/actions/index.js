@@ -53,5 +53,6 @@ export {
     fetchIdentities,
     linkDid,
     linkDidSuccess,
-    linkDidFail
+    linkDidFail,
+    initDidsClean
 } from './identities';

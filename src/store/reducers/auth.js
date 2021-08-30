@@ -4,6 +4,7 @@ import {updateObject} from "../../shared/utility";
 const initialState = {
     name: null,
     password: null,
+    entityType : null,
     error: null,
     loading: false,
     authRedirectPath: '/'
@@ -17,6 +18,7 @@ const authSuccess = (state, action) => {
     return updateObject( state, {
         name: action.name,
         password: action.password,
+        entityType: action.entityTypeUser,
         error: null,
         loading: false
     } );
