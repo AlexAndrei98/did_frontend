@@ -9,21 +9,21 @@ export const initDidsClean = () => {
 
 }
 
-export const createIdentitiesSuccess = (data) => {
+export const fetchLinkedDidsSuccess = (data) => {
     return {
         type: actionTypes.FETCH_LINKED_DIDS_SUCCESS,
         orderData: data
     }
 
 }
-export const createIdentitiesFail = (error) => {
+export const fetchLinkedDidsFail = (error) => {
     return {
         type: actionTypes.FETCH_LINKED_DIDS_FAIL,
         error: error
     }
 }
 
-export const createIdentitiesStart = (hashedKey) => {
+export const fetchLinkedDidsStart = (hashedKey) => {
     return {
         type: actionTypes.FETCH_LINKED_DIDS_START,
         hashedKey: hashedKey

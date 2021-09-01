@@ -29,12 +29,20 @@ const Identities = () => {
         let requesterHash = sha256(identities[index].name)
         console.log(requesterHash)
         console.log(hashedKey)
-
         linkDid(requesterHash,hashedKey,'Link')
         onFetchLinkedDids(hashedKey)
+
     }
+
     const onChange = (e) => {
-        setDidtoLink({didToLink :e.target.value}) }
+        setDidtoLink({didToLink :e.target.value}) 
+    }
+    
+
+
+
+
+
     useEffect( () => {
         // if (identities.length > 0) {
             // console.log("entityTypeUser",entityTypeUser)
@@ -107,13 +115,21 @@ const Identities = () => {
     if (loading){ 
         table = <Table columns={columns} data={data}/>
     }
+    let linkDidComponnent = null
+    if (entityTypeUser == 'ENTITY'){
+        linkDidComponnent = (
+        <div key={5}> 
+            <input key={1} value={didtoLink.didToLink} placeholder='hash of the name' onChange= {(e) => onChange(e)}/>
+            <button key={2} onClick={(e) => linkDid(didtoLink.didToLink, hashedKey, 'Not Signed')}>Link New DID</button>
+            </div>)
+
+    }
     
 
 
     return (
         <div className={classes.Identities}>
-            <input key={1} value={didtoLink.didToLink} placeholder='hash of the name' onChange= {(e) => onChange(e)}/>
-            <button key={2} onClick={(e) => linkDid(didtoLink.didToLink, hashedKey, 'Not Signed')}>Link New DID</button>
+            {linkDidComponnent}
             <p key={3} >{hashedKey}</p>
             {table}
         </div>
