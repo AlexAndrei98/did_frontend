@@ -12,61 +12,154 @@ import Input from './../../components/UI/Input/Input';
 import Button from './../../components/UI/Button/Button';
 import { updateObject } from "../../shared/utility";
 import { checkValidity } from "../../shared/validation";
+import { sha256 } from 'js-sha256';
+import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 const Credentials = (props) => {
 
     const dispatch = useDispatch();
-    const userName = useSelector( state => {
-        return state.auth.name 
-    })
+    const userName = useSelector( state => {return state.auth.name})
+    const entityTypeUser = useSelector(state => state.auth.entityType);
+    const publicKey = useSelector(state => state.auth.publicKey);
+
+    const credentialsLoaded = useSelector(state => state.credentials.credentials);
+    const fetching = useSelector(state => state.credentials.fetching);
+
+
     //State and functions to load all of the credentials in a table
-    const fetchCredentials = useCallback(() => dispatch(actions.fetchCredentialsStart()), [dispatch]);
+    const fetchCredentials = useCallback((userName) => dispatch(actions.fetchCredentials(userName)), [dispatch]);
+    useEffect( () => {
+        // if (identities.length > 0) {
+            // console.log("entityTypeUser",entityTypeUser)
+
+            fetchCredentials(userName);
+        // }
+    }, [fetchCredentials,userName])
 
     const creating = useSelector( state => {
         return state.credentials.creating
     })
+    let table= <Spinner/>
+
+
+    const columns = [
+        {
+          title: 'Public Key',
+          dataIndex: 'issued_to_public_key',
+          key: 'issued_to_public_key',
+          width: 250,
+        },
+        {
+            title: 'Hashed Key',
+            dataIndex: 'issued_to_hashed_key',
+            key: 'issued_to_hashed_key',
+            width: 250,
+        },
+        {
+            title: 'Entity Type',
+            dataIndex: 'issued_to_type',
+            key: 'issued_to_type',
+            width: 250,
+        },
+        {
+            title: 'Date Created',
+            dataIndex: 'issued_date',
+            key: 'issued_date',
+            width: 250,
+        },
+        {
+            title: 'Signed',
+            dataIndex: '',
+            key: 'signed',
+            render: ( value, row, index) => { 
+                //look at line 45 in nthe linkDidsSaga
+                // console.log('columns render',entityTypeUser ,identities[index])
+                // if (identities[index]){
+                //     if(identities[index].status == 'Not Signed'){
+                //             if (entityTypeUser == 'PERSON'){
+                //                 return <a href="#" onClick={() => sign(index)} > Secure this Connection </a>
+                //             }
+                //         else{
+                //             return <p>Not signed</p>
+                //         }
+                //     }
+                //     else { 
+                //         return  <p> Signed</p> 
+                //     } 
+                // }
+                // else {
+                //     return  <p> Waiting</p>
+                // }
+            },
+        },
+    ]
+
+    let tableData = []
+    credentialsLoaded.map(e => {
+        tableData.push({
+            issued_to_public_key: e.issued_to_public_key,
+            issued_to_hashed_key:e.issued_to_hashed_key,
+            issued_to_type: e.issued_to_type,
+            issued_date: e.issued_date,
+            signed: e.signed
+        })
+    })
+
+    if (fetching){
+        table= <Table columns={columns} data={tableData} />
+    }
+    console.log('fetching',fetching)
+    const didsLinked = useSelector(state => state.dids.identities);
+    const optionsDids = [{value:''}]
+
+    const updateNewCredentials = () => {
+        didsLinked.map(el => {
+            optionsDids.push({value:el.name, displayValue : el.name, publicKey : el.publicKey})
+        })
+
+    }
+    didsLinked.map(el => {
+        optionsDids.push({value:el.name, displayValue : el.name, publicKey : el.publicKey})
+    })
+    
+    const updateNewCredentialsNew = () => {
+        updateNewCredentials()
+        const updatedCredentialForm = updateObject(newCredential, {
+            issued_to_hashed_key : updateObject(newCredential.issued_to_hashed_key, {
+                elementConfig: updateObject(newCredential.issued_to_hashed_key.elementConfig, {
+                    options: optionsDids
+                })
+            })
+        })
+        setNewCredential(updatedCredentialForm);
+    }
+
     const [newCredential, setNewCredential] = useState({
         issued_to_hashed_key: {
-            elementType: 'input',
+            elementType: 'select',
                 elementConfig: {
-                    name: 'Hashed Key of the did',
+                    name: 'Name of the user',
                     type: 'text',
-                    placeholder: 'did:ORG:{id}',
+                    options: optionsDids,
                     error: 'name'
                 },
-                value: '',
+                value: optionsDids[0].value,
                 validation: {
-                    required: true,
-                    minLength: 6
+                    required: false,
                 },
+                
                 valid: false,
                 touched: false
         },
-        issuer_to_public_key: {
-            elementType: 'input',
-                elementConfig: {
-                    name: 'Public Key of the user',
-                    type: 'text',
-                    placeholder: 'did:ORG:{id}',
-                    error: 'name'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 6
-                },
-                valid: false,
-                touched: false
-        },
-        issuer_to_date: {
+        issued_to_date: {
             elementType: 'input',
                 elementConfig: {
                     name: 'Today\'s Date',
-                    type: 'text',
+                    type: 'timestamp',
                     placeholder: Date(),
                     error: 'name'
                 },
-                value: '',
+                value: Date(),
                 validation: {
                     required: false,
                     // isIn : [
@@ -76,24 +169,24 @@ const Credentials = (props) => {
                 valid: false,
                 touched: false
         },
-        issuer_to_type: {
+        issued_to_type: {
             elementType: 'select',
                 elementConfig: {
                     name: 'Type',
                     type: 'text',
                     options: [
-                        {value:'ORG',
-                        displayValue :'ORG'
+                        {value:'PROPERTY TITLE',
+                        displayValue :'PROPERTY TITLE'
                     },
-                        {value:'PERSON',
-                        displayValue :'PERSON'
+                        {value:'DRIVER LICENSE',
+                        displayValue :'DRIVER LICENSE'
                     }
                     ],
-                    error: 'name'
+                    error: 'Type'
                 },
-                value: '',
+                value: 'PROPERTY TITLE',
                 validation: {
-                    required: false,
+                    required: true,
                 },
                 
                 valid: false,
@@ -107,6 +200,7 @@ const Credentials = (props) => {
         // issued_to_type : null,
         // issued_date : Date()
     });
+    
     const [metadata, setMetadata] = useState({
         keys : ["",""],
         values: ["",""],
@@ -115,7 +209,38 @@ const Credentials = (props) => {
 
 
     const createCredentialStart = ()  => dispatch(actions.createCredentialStart())
-    const createCredentialSuccess = (value)  => dispatch(actions.createCredentialSuccess())
+    const createCredential = (value)  => dispatch(actions.createCredential(value))
+
+    const startCredential = () => {
+        updateNewCredentialsNew()
+        createCredentialStart()
+        console.log('optionsDids',optionsDids)
+    }
+    const createRequest = () => {
+
+
+        var result = {};
+        metadata.keys.forEach((key, i) => result[key] = metadata.values[i]);
+
+        let body = {
+            issuer_to_hashed_key : sha256(userName),
+            issuer_to_type : entityTypeUser,
+            issuer_to_public_key : publicKey,
+            issued_to_hashed_key: sha256(newCredential.issued_to_hashed_key.value),
+            issued_to_type: newCredential.issued_to_type.value ,
+            issued_to_public_key: optionsDids.filter(el => el.value == newCredential.issued_to_hashed_key.value)[0].publicKey ,
+            issued_date: newCredential.issued_to_date.value,
+            signed:'False',
+            more_data: result
+        }
+        console.log('body',body)
+        
+        createCredential(body)
+        fetchCredentials(userName)
+    }
+    //issuer_to_ fields: userName, entityTypeUser, entityTypePublicKey 
+    // issued_to fields: newCredential.issued_to_hashed_key.value, newCredential.issued_to_type.value , newCredential.issued_date.value 
+    // optionsDids.filter(e => el.name ==  newCredential.issued_to_hashed_key.value).publicKey 
     
     
 
@@ -127,9 +252,7 @@ const Credentials = (props) => {
             config: newCredential[key]
         })
     }
-    console.log(newCredentialForm)
     const inputChangedHandler = (event, controlName) => {
-        console.log(controlName)
         const updatedCredentialForm = updateObject(newCredential, {
             [controlName]: updateObject(newCredential[controlName], {
                 value: event.target.value,
@@ -216,18 +339,22 @@ const Credentials = (props) => {
     // END OF METADATA
 
     return (
-        <Aux>
-            <button classes = {classes.button} onClick={createCredentialStart}>
-                Create new credentials 
-            </button>
-            <Modal show={creating} close={modalHandler}>
-                {form}
-                {alert_text}
-                {key_value_pair}
-                <button onClick={createCredentialSuccess}> close </button>
+        <div className={classes.Credentials}>
+            <Aux>
+                {table}
 
-            </Modal>
-        </Aux>
+                <button classes = {classes.button} onClick={startCredential}>
+                    Create new credentials 
+                </button>
+                <Modal show={creating} close={modalHandler}>
+                    {form}
+                    {alert_text}
+                    {key_value_pair}
+                    <button onClick={createRequest}> close </button>
+
+                </Modal>
+            </Aux>
+        </div>
     )
 
 }

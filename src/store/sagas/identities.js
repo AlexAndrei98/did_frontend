@@ -16,11 +16,9 @@ export function* fetchLikedDidsSaga(action){
         const response = yield axiosAuth.post(url, body)
         let data = JSON.parse(response.data.body)
         for (let key in data.linked_dids){
-            yield console.log(key)
             let body1 = {"body":JSON.stringify({ hashed_key:key})}
             const response = yield axiosAuth.post(url, body1)
             let data1 = JSON.parse(response.data.body)
-            yield console.log('sub_data', data1)
 
             yield put(actions.fetchLinkedDidsSuccess({
                 name : data1.name, 

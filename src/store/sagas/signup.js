@@ -32,7 +32,7 @@ export function* signupUserSaga(action) {
         const data = JSON.parse(response.data.body)
         console.log("response data",data)
         /*this lines set the  state.signup.token and state.signup.hashedKey*/ 
-        yield put(actions.authSuccess(data.name, data.password,data.entityType))
+        yield put(actions.authSuccess(data.name, data.password,data.entityType,data.public_key))
     } catch (error) {
         yield put(actions.signupFail(error.response))
     }

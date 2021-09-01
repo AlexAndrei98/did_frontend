@@ -7,6 +7,8 @@ export function* logoutSaga(action) {
     yield call([localStorage, 'removeItem'], "name");
     yield call([localStorage, 'removeItem'], "password");
     yield call([localStorage, 'removeItem'], "hashedKey");
+    yield call([localStorage, 'removeItem'], "publicKey");
+
     yield put(actions.logoutSucceed())
 }
 
@@ -25,11 +27,12 @@ export function* authUserSaga(action) {
         console.log('Successfully logged in', data)
         yield call([localStorage, 'setItem'], "name", data.name);
         yield call([localStorage, 'setItem'], "hashedKey", data.hashed_key);
+        yield call([localStorage, 'setItem'], "publicKey", data.public_key);
         yield call([localStorage, 'setItem'], "password", data.password);
         yield call([localStorage, 'setItem'], "entityType", data.entityType);
 
         /*this lines set the  state.auth.name and state.auth.hashedKey*/ 
-        yield put(actions.authSuccess(data.name, data.password, data.entityType))
+        yield put(actions.authSuccess(data.name, data.password, data.entityType, data.public_key))
     } catch (error) {
         yield put(actions.authFail(error.response.data.error))
     }
@@ -44,7 +47,7 @@ export function* authCheckStateSaga(action) {
         const name = yield call([localStorage, 'getItem'], "name");
         const password = yield call([localStorage, 'getItem'], "password");
         const entityType = yield call([localStorage, 'getItem'], "entityType");
-
-        yield put(actions.authSuccess(name, password,entityType));
+        const publicKey = yield call([localStorage, 'getItem'], "publicKey");
+        yield put(actions.authSuccess(name,password,entityType,publicKey));
     }
 }

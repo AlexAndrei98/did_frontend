@@ -15,7 +15,7 @@ const initDids = ( state, action ) => {
 };
 const fetchLinkedDidsSuccess = ( state, action ) => {
     const dids = state.identities
-    console.log('dids',dids)
+    console.log('currennt state.identities',dids)
     dids.push(action.orderData)
     console.log('new dids',dids)
 
@@ -33,8 +33,6 @@ const createIdentitySuccess = ( state, action ) => {
     //     dids.push(key.name)
     // }
     
-    console.log('new dids',dids)
-
     return updateObject( state, { loading: false ,
         identities: dids} );
 };

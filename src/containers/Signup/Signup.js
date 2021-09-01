@@ -47,20 +47,27 @@ const Signup = () => {
             touched: false
         },
         entityType: {
-            elementType: 'input',
-            elementConfig: {
-                name: 'Entity Type',
-                type: 'text',
-                placeholder: 'Your Entity Type',
-                error: 'type'
-            },
-            value: '',
-            validation: {
-                required: true,
-                minLength: 2
-            },
-            valid: false,
-            touched: false
+            elementType: 'select',
+                elementConfig: {
+                    name: 'Type',
+                    type: 'text',
+                    options: [
+                        {value:'ENTITY',
+                        displayValue :'ENTITY'
+                    },
+                        {value:'PERSON',
+                        displayValue :'PERSON'
+                    }
+                    ],
+                    error: 'name'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                
+                valid: false,
+                touched: false
         },
         seed: {
             elementType: 'input',

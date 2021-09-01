@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from "../../shared/utility";
 
 const initialState = {
-    credentials: null,
+    credentials: [],
     fetching: false,
     error: false,
     creating: false
@@ -12,9 +12,24 @@ const createCredentialStart = ( state, action ) => {
 };
 
 const createCredentialSuccess = ( state, action ) => {
+
     return updateObject( state, { creating: false } );
 };
 
+const fetchCredentialsDone = ( state, action ) => {
+
+    return updateObject( state, { fetching: true } );
+};
+
+const fetchCredentialsSuccess = ( state, action ) => {
+    const dids = state.credentials
+    console.log('fetch credentials success old',dids)
+    dids.push(action.orderData)
+    console.log('new credentials',dids)
+
+    return updateObject( state, { 
+        credentials: dids} );
+};
 
 const addDataPoint = ( state, action ) => {
     const newKeys = { keys : state.newCredential.keys.push("")}
@@ -81,6 +96,8 @@ const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.CREATE_CREDENTIAL_START: return createCredentialStart( state, action );
         case actionTypes.CREATE_CREDENTIAL_SUCCESS: return createCredentialSuccess( state, action );
+        case actionTypes.FETCH_CREDENTIALS_SUCCESS: return fetchCredentialsSuccess( state, action );
+        case actionTypes.FETCH_CREDENTIALS_DONE: return fetchCredentialsDone( state, action );
 
         default: return state;
     }

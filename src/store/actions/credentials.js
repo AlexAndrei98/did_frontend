@@ -3,11 +3,9 @@ import * as actionTypes from './actionTypes';
 
 
 
-export const createCredentialSuccess = (id, data) => {
+export const createCredentialSuccess = () => {
     return {
-        type: actionTypes.CREATE_CREDENTIAL_SUCCESS,
-        orderId: id,
-        orderData: data
+        type: actionTypes.CREATE_CREDENTIAL_SUCCESS
     }
 
 }
@@ -24,18 +22,28 @@ export const createCredentialStart = () => {
     }
 }
 
-export const createCredential = (name) => {
+export const createCredential = (data) => {
     return {
         type: actionTypes.CREATE_CREDENTIAL,
-        name
+        body: data
+
     }
 }
+
+export const doneFetching = () => {
+    return {
+        type: actionTypes.FETCH_CREDENTIALS_DONE
+
+    }
+}
+
+
 
 
 export const fetchCredentialsSuccess = (orders) => {
     return {
         type: actionTypes.FETCH_CREDENTIALS_SUCCESS,
-        orders: orders
+        orderData: orders
     }
 
 }
@@ -52,10 +60,9 @@ export const fetchCredentialsStart = () => {
     }
 }
 
-export const fetchCredentials = (token, hashedKey) => {
+export const fetchCredentials = ( hashedKey) => {
     return {
         type: actionTypes.FETCH_CREDENTIALS,
-        token,
-        hashedKey
+        name: hashedKey
     }
 }

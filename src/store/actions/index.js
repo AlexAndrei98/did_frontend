@@ -42,14 +42,15 @@ export {
     createCredentialFail,
     fetchCredentialsStart,
     fetchCredentialsSuccess,
-    fetchCredentialsFail
+    fetchCredentialsFail,
+    doneFetching
 } from './credentials';
 
 
 export {
-    createIdentitiesSuccess,
-    createIdentitiesFail,
-    createIdentitiesStart,
+    fetchLinkedDidsSuccess,
+    fetchLinkedDidsFail,
+    fetchLinkedDidsStart,
     fetchIdentities,
     linkDid,
     linkDidSuccess,

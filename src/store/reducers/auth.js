@@ -5,6 +5,7 @@ const initialState = {
     name: null,
     password: null,
     entityType : null,
+    publicKey: null,
     error: null,
     loading: false,
     authRedirectPath: '/'
@@ -19,6 +20,7 @@ const authSuccess = (state, action) => {
         name: action.name,
         password: action.password,
         entityType: action.entityTypeUser,
+        publicKey: action.publicKey,
         error: null,
         loading: false
     } );
