@@ -61,7 +61,7 @@ const Signup = () => {
                     ],
                     error: 'name'
                 },
-                value: '',
+                value: 'ENTITY',
                 validation: {
                     required: true,
                 },

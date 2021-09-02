@@ -16,6 +16,11 @@ const createCredentialSuccess = ( state, action ) => {
     return updateObject( state, { creating: false } );
 };
 
+const initCredentials = ( state, action ) => {
+
+    return updateObject( state, { credentials: [] } );
+};
+
 const fetchCredentialsDone = ( state, action ) => {
 
     return updateObject( state, { fetching: true } );
@@ -98,7 +103,9 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.CREATE_CREDENTIAL_SUCCESS: return createCredentialSuccess( state, action );
         case actionTypes.FETCH_CREDENTIALS_SUCCESS: return fetchCredentialsSuccess( state, action );
         case actionTypes.FETCH_CREDENTIALS_DONE: return fetchCredentialsDone( state, action );
+        case actionTypes.INIT_CREDENTIALS: return initCredentials( state, action );
 
+        
         default: return state;
     }
 };

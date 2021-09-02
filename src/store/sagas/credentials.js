@@ -11,6 +11,8 @@ export function* fetchCredentialsSaga(action){
     // yield put(actions.fetchCredentialsStart())
     let body = {"body":JSON.stringify({ hashed_key:sha256(action.name)})}
     yield put(actions.initDidsClean())
+    yield put(actions.initCredentialsClean())
+
 
     let url= '/did_get'
     try {
@@ -40,7 +42,8 @@ export function* fetchCredentialsSaga(action){
                 issued_to_hashed_key : dataCred.issued_to_hashed_key,
                 issued_to_type : dataCred.issued_to_type,
                 issued_date: dataCred.issued_date,
-                signed: dataCred.signed
+                signed: dataCred.signed,
+                more_data: dataCred.more_data
             }
             yield put(actions.fetchCredentialsSuccess(dataFinal))
         }

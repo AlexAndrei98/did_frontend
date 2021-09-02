@@ -37,8 +37,12 @@ export const doneFetching = () => {
     }
 }
 
+export const initCredentialsClean = () => {
+    return {
+        type: actionTypes.INIT_CREDENTIALS
 
-
+    }
+}
 
 export const fetchCredentialsSuccess = (orders) => {
     return {

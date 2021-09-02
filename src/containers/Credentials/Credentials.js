@@ -41,6 +41,10 @@ const Credentials = (props) => {
     })
     let table= <Spinner/>
 
+    const sign = (name) => {
+        console.log(name)
+    }
+
 
     const columns = [
         {
@@ -72,24 +76,24 @@ const Credentials = (props) => {
             dataIndex: '',
             key: 'signed',
             render: ( value, row, index) => { 
-                //look at line 45 in nthe linkDidsSaga
-                // console.log('columns render',entityTypeUser ,identities[index])
-                // if (identities[index]){
-                //     if(identities[index].status == 'Not Signed'){
-                //             if (entityTypeUser == 'PERSON'){
-                //                 return <a href="#" onClick={() => sign(index)} > Secure this Connection </a>
-                //             }
-                //         else{
-                //             return <p>Not signed</p>
-                //         }
-                //     }
-                //     else { 
-                //         return  <p> Signed</p> 
-                //     } 
-                // }
-                // else {
-                //     return  <p> Waiting</p>
-                // }
+                // look at line 45 in nthe linkDidsSaga
+                console.log('columns render',entityTypeUser ,credentialsLoaded[index])
+                if (credentialsLoaded[index]){
+                    if(credentialsLoaded[index].signed == 'False'){
+                            if (entityTypeUser == 'PERSON'){
+                                return <a href="#" onClick={() => sign(index)} > Secure this Connection </a>
+                            }
+                        else{
+                            return <p>Not signed</p>
+                        }
+                    }
+                    else { 
+                        return  <p> Signed</p> 
+                    } 
+                }
+                else {
+                    return  <p> Waiting</p>
+                }
             },
         },
     ]
@@ -101,12 +105,56 @@ const Credentials = (props) => {
             issued_to_hashed_key:e.issued_to_hashed_key,
             issued_to_type: e.issued_to_type,
             issued_date: e.issued_date,
-            signed: e.signed
+            signed: e.signed,
+            children: e.more_data,
         })
     })
+    const [expandRowByClick, expandRowByClickProps] = useState(false);
+    const [expandedRowKeys, setExpandedRowKeys] = React.useState([]);
+
+    const onExpand = (expanded, record) => {
+        console.log('onExpand', expanded, record.record.issued_date);
+        let index = expandedRowKeys.indexOf(record.record.issued_date)
+        if (index>-1){
+            const newData = expandedRowKeys.slice();
+            newData.splice(index, 1);
+
+            setExpandedRowKeys(newData)
+        }
+        else {
+            setExpandedRowKeys([record.record.issued_date])
+
+        }
+      };
+    
+      const onExpandedRowsChange = (rows) => {
+        setExpandedRowKeys(rows);
+      };
+    
+      const rowExpandable = (record) => true;
+    
+
 
     if (fetching){
-        table= <Table columns={columns} data={tableData} />
+        table= <Table columns={columns} 
+        rowKey='issued_date'
+        expandable={{
+            expandRowByClick,
+            expandedRowRender: (record, index, indent, expanded) =>
+              expanded ? (Object.entries(record.children).map(([key, value], i) => {
+                return (
+                    <div key={key}>
+                        {key}: {value}
+                    </div>
+                )
+            })) : null,
+            expandedRowKeys,
+            // onExpandedRowsChange,
+            rowExpandable,
+            expandIcon: (record) => {return (<a onClick={(e) => {onExpand(e, record)}} > more info</a>)},
+            expandIconColumnIndex:null
+          }} 
+          data={tableData} />
     }
     console.log('fetching',fetching)
     const didsLinked = useSelector(state => state.dids.identities);
