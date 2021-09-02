@@ -3,7 +3,7 @@ import {logoutSaga, authUserSaga, authCheckStateSaga} from './auth';
 import {initIngredientsSaga} from "./burgerBuilder";
 import {purchaseBurgerSaga, fetchOrdersSaga} from "./order";
 import {signupUserSaga} from "./signup";
-import {fetchCredentialsSaga, createCredentialSaga} from "./credentials"
+import {fetchCredentialsSaga, createCredentialSaga,signCredential} from "./credentials"
 import {fetchLikedDidsSaga, linkDidsSaga } from "./identities"
 
 import * as actionTypes from './../actions/actionTypes';
@@ -31,6 +31,8 @@ export function* watchSignup() {
 export function* watchCredentials() {
     yield takeEvery(actionTypes.FETCH_CREDENTIALS, fetchCredentialsSaga);
     yield takeEvery(actionTypes.CREATE_CREDENTIAL, createCredentialSaga);
+    yield takeEvery(actionTypes.SIGN_CREDENTIAL, signCredential);
+
     
 }
 export function* watchDids() {

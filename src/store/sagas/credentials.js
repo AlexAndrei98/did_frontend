@@ -3,6 +3,7 @@ import * as actions from './../actions/index';
 import axiosCredentialsCreate from "../../axios/axios-credentials-create";
 import sha256 from "js-sha256"
 import axiosAuth from "../../axios/axios-auth";
+import axiosCredentialsSign from "../../axios/axios-credentials-sign";
 
 
 export function* fetchCredentialsSaga(action){
@@ -43,6 +44,9 @@ export function* fetchCredentialsSaga(action){
                 issued_to_type : dataCred.issued_to_type,
                 issued_date: dataCred.issued_date,
                 signed: dataCred.signed,
+                issuer_to_hashed_key: dataCred.issuer_to_hashed_key,
+                issuer_to_type : dataCred.issuer_to_type,
+
                 more_data: dataCred.more_data
             }
             yield put(actions.fetchCredentialsSuccess(dataFinal))
@@ -83,3 +87,34 @@ export function* createCredentialSaga(action){
 
 }
 
+
+
+export function* signCredential(action){
+
+    let modifiedData = {"body":JSON.stringify( {
+        'issuer_to_hashed_key': action.issuer_to_hashed_key,
+        'issued_to_hashed_key':action.issued_to_hashed_key,
+        'issued_date':action.issued_date
+        })
+        
+    }
+    yield console.log("modified data",modifiedData)
+
+    let extended_url
+    extended_url = '/credentials_sign'
+    try {
+        const response = yield axiosCredentialsSign.post(extended_url, modifiedData)
+        let data = JSON.parse(response.data.body)
+        
+        yield put(actions.fetchLinkedDidsStart())
+        console.log("response data",data)
+        yield put(actions.linkDidSuccess(data))
+        yield put(actions.fetchLinkedDidsStart())
+
+
+    }
+    catch (error){
+        console.log("response data",error)
+    }
+
+}

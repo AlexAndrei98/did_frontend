@@ -36,6 +36,11 @@ const fetchCredentialsSuccess = ( state, action ) => {
         credentials: dids} );
 };
 
+const signCredentialDone = ( state, action ) => {
+
+    return updateObject( state, { fetching: true } );
+};
+
 const addDataPoint = ( state, action ) => {
     const newKeys = { keys : state.newCredential.keys.push("")}
     const updatedKeys = updateObject( state.newCredential, newKeys );
@@ -104,6 +109,8 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.FETCH_CREDENTIALS_SUCCESS: return fetchCredentialsSuccess( state, action );
         case actionTypes.FETCH_CREDENTIALS_DONE: return fetchCredentialsDone( state, action );
         case actionTypes.INIT_CREDENTIALS: return initCredentials( state, action );
+        case actionTypes.SIGN_CREDENTIAL_SUCCESS: return signCredentialDone( state, action );
+
 
         
         default: return state;

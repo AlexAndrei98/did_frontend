@@ -44,7 +44,8 @@ export {
     fetchCredentialsSuccess,
     fetchCredentialsFail,
     doneFetching,
-    initCredentialsClean
+    initCredentialsClean,
+    signCredential
 } from './credentials';
 
 

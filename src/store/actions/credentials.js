@@ -1,7 +1,23 @@
 
 import * as actionTypes from './actionTypes';
 
+export const signCredentialSuccess = () => {
+    return {
+        type: actionTypes.SIGN_CREDENTIAL_SUCCESS
+    }
 
+}
+
+export const signCredential = (issuer_to_hashed_key , issued_to_hashed_key,issued_date) => {
+    return {
+        type: actionTypes.SIGN_CREDENTIAL,
+        issuer_to_hashed_key:issuer_to_hashed_key,
+        issued_to_hashed_key:issued_to_hashed_key,
+        issued_date:issued_date
+
+    }
+
+}
 
 export const createCredentialSuccess = () => {
     return {

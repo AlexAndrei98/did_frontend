@@ -25,6 +25,7 @@ const Credentials = (props) => {
     const credentialsLoaded = useSelector(state => state.credentials.credentials);
     const fetching = useSelector(state => state.credentials.fetching);
 
+    const signCredential = useCallback((issuer_to_hashed_key,issued_to_hashed_key,issued_date ) => dispatch(actions.signCredential(issuer_to_hashed_key, issued_to_hashed_key,issued_date)), [dispatch]);
 
     //State and functions to load all of the credentials in a table
     const fetchCredentials = useCallback((userName) => dispatch(actions.fetchCredentials(userName)), [dispatch]);
@@ -41,8 +42,11 @@ const Credentials = (props) => {
     })
     let table= <Spinner/>
 
-    const sign = (name) => {
-        console.log(name)
+    const sign = (index) => {
+        console.log(tableData[index])
+        console.log(tableData[index].issuer_to_hashed_key, tableData[index].issued_to_hashed_key,tableData[index].issued_date)
+        signCredential(tableData[index].issuer_to_hashed_key, tableData[index].issued_to_hashed_key,tableData[index].issued_date)
+
     }
 
 
@@ -106,6 +110,9 @@ const Credentials = (props) => {
             issued_to_type: e.issued_to_type,
             issued_date: e.issued_date,
             signed: e.signed,
+            issuer_to_type: e.issuer_to_type,
+            issuer_to_public_key: e.issuer_to_public_key,
+            issuer_to_hashed_key: e.issuer_to_hashed_key,
             children: e.more_data,
         })
     })
