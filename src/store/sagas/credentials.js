@@ -39,6 +39,7 @@ export function* fetchCredentialsSaga(action){
             const response = yield axiosAuth.post(url, bodyCred)
             let dataCred = JSON.parse(response.data.body)
             let dataFinal = {
+                issuer_to_name: dataCred.issuer_to_name,
                 issued_to_public_key: dataCred.issued_to_public_key,
                 issued_to_hashed_key : dataCred.issued_to_hashed_key,
                 issued_to_type : dataCred.issued_to_type,
@@ -46,7 +47,6 @@ export function* fetchCredentialsSaga(action){
                 signed: dataCred.signed,
                 issuer_to_hashed_key: dataCred.issuer_to_hashed_key,
                 issuer_to_type : dataCred.issuer_to_type,
-
                 more_data: dataCred.more_data
             }
             yield put(actions.fetchCredentialsSuccess(dataFinal))

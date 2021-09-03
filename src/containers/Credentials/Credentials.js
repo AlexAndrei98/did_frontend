@@ -58,13 +58,13 @@ const Credentials = (props) => {
           width: 250,
         },
         {
-            title: 'Hashed Key',
-            dataIndex: 'issued_to_hashed_key',
-            key: 'issued_to_hashed_key',
+            title: 'Name',
+            dataIndex: 'issuer_to_name',
+            key: 'issuer_to_name',
             width: 250,
         },
         {
-            title: 'Entity Type',
+            title: 'Credential Type',
             dataIndex: 'issued_to_type',
             key: 'issued_to_type',
             width: 250,
@@ -110,7 +110,9 @@ const Credentials = (props) => {
             issued_to_type: e.issued_to_type,
             issued_date: e.issued_date,
             signed: e.signed,
-            issuer_to_type: e.issuer_to_type,
+            issued_to_name: e.issued_to_name,
+            issuer_to_name: e.issuer_to_name,
+            issued_to_type: e.issued_to_type,
             issuer_to_public_key: e.issuer_to_public_key,
             issuer_to_hashed_key: e.issuer_to_hashed_key,
             children: e.more_data,
@@ -143,7 +145,8 @@ const Credentials = (props) => {
 
 
     if (fetching){
-        table= <Table columns={columns} 
+        table= <Table scroll={{ x: true, y: true }} 
+        columns={columns} 
         rowKey='issued_date'
         expandable={{
             expandRowByClick,
@@ -158,7 +161,7 @@ const Credentials = (props) => {
             expandedRowKeys,
             // onExpandedRowsChange,
             rowExpandable,
-            expandIcon: (record) => {return (<a onClick={(e) => {onExpand(e, record)}} > more info</a>)},
+            expandIcon: (record) => {return (<a onClick={(e) => {onExpand(e, record)}} style ={{'color':'red'}}> More data</a>)},
             expandIconColumnIndex:null
           }} 
           data={tableData} />
@@ -278,9 +281,11 @@ const Credentials = (props) => {
         metadata.keys.forEach((key, i) => result[key] = metadata.values[i]);
 
         let body = {
+            issuer_to_name: userName,
             issuer_to_hashed_key : sha256(userName),
             issuer_to_type : entityTypeUser,
             issuer_to_public_key : publicKey,
+            issued_to_name : newCredential.issued_to_hashed_key.value,
             issued_to_hashed_key: sha256(newCredential.issued_to_hashed_key.value),
             issued_to_type: newCredential.issued_to_type.value ,
             issued_to_public_key: optionsDids.filter(el => el.value == newCredential.issued_to_hashed_key.value)[0].publicKey ,

@@ -65,18 +65,21 @@ const Identities = () => {
           dataIndex: 'name',
           key: 'name',
           width: 250,
+          ellipsis: true
         },
         {
             title: 'Public Key',
             dataIndex: 'publicKey',
             key: 'publicKey',
             width: 250,
+            ellipsis: true
         },
         {
             title: 'Entity Type',
             dataIndex: 'entityType',
             key: 'entityType',
             width: 250,
+            ellipsis: true
         },
         {
             title: 'Signed',
@@ -113,7 +116,7 @@ const Identities = () => {
 
     let table = <Spinner/>
     if (loading){ 
-        table = <Table columns={columns} data={data}/>
+        table = <Table scroll={{ x: 1000, y: 300 }}  columns={columns} data={data}/>
     }
     let linkDidComponnent = null
     if (entityTypeUser == 'ENTITY'){

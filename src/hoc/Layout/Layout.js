@@ -17,12 +17,9 @@ const Layout = props => {
     return (
         <Aux>
             <Toolbar
+                name={props.name}
                 isAuth={props.isAuthenticated}
                 clicked={sideDrawerClosedHandler}/>
-            <SideDrawer
-                isAuth={props.isAuthenticated}
-                open={showSideDrawer}
-                closed={sideDrawerClosedHandler}/>
             <main className={classes.Content}>
                 {props.children}
             </main>
@@ -33,7 +30,8 @@ const Layout = props => {
 
 const mapStateToProps = (state) => {
     return {
-        isAuthenticated: state.auth.name != null
+        isAuthenticated: state.auth.name != null,
+        name: state.auth.name
     }
 }
 

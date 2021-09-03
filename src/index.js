@@ -38,8 +38,8 @@ const store = createStore(
 ));
 
 sagaMiddleware.run(watchAuth);
-sagaMiddleware.run(watchBurgerBuilder);
-sagaMiddleware.run(watchOrder);
+// sagaMiddleware.run(watchBurgerBuilder);
+// sagaMiddleware.run(watchOrder);
 sagaMiddleware.run(watchSignup);
 sagaMiddleware.run(watchCredentials);
 sagaMiddleware.run(watchDids);
