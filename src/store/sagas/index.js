@@ -5,6 +5,8 @@ import {purchaseBurgerSaga, fetchOrdersSaga} from "./order";
 import {signupUserSaga} from "./signup";
 import {fetchCredentialsSaga, createCredentialSaga,signCredential} from "./credentials"
 import {fetchLikedDidsSaga, linkDidsSaga } from "./identities"
+import {fetchWelcomeData } from "./welcome"
+
 
 import * as actionTypes from './../actions/actionTypes';
 
@@ -38,6 +40,10 @@ export function* watchCredentials() {
 export function* watchDids() {
     yield takeEvery(actionTypes.FETCH_LINKED_DIDS, fetchLikedDidsSaga);
     yield takeEvery(actionTypes.LINK_DID, linkDidsSaga);
+
+}
+export function* watchWelcome() {
+    yield takeEvery(actionTypes.FETCH_WELCOME_DATA, fetchWelcomeData);
 
 }
 

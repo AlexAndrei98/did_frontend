@@ -191,7 +191,8 @@ const Credentials = (props) => {
         })
         setNewCredential(updatedCredentialForm);
     }
-
+    let date = new Date()
+    let _date = date.toLocaleString('en-GB')
     const [newCredential, setNewCredential] = useState({
         issued_to_hashed_key: {
             elementType: 'select',
@@ -214,10 +215,10 @@ const Credentials = (props) => {
                 elementConfig: {
                     name: 'Today\'s Date',
                     type: 'timestamp',
-                    placeholder: Date(),
+                    placeholder: _date,
                     error: 'name'
                 },
-                value: Date(),
+                value: _date,
                 validation: {
                     required: false,
                     // isIn : [

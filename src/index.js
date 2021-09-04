@@ -5,7 +5,7 @@ import {createStore, applyMiddleware, compose, combineReducers} from "redux";
 import {Provider} from "react-redux";
 import thunk from "redux-thunk";
 import createSagaMiddleware from 'redux-saga';
-import {watchAuth, watchBurgerBuilder, watchOrder, watchSignup, watchCredentials,watchDids} from "./store/sagas/index";
+import {watchAuth, watchBurgerBuilder, watchOrder, watchSignup, watchCredentials,watchDids, watchWelcome} from "./store/sagas/index";
 
 import * as serviceWorker from './serviceWorker';
 import './index.css';
@@ -16,6 +16,7 @@ import authReducer from './store/reducers/auth';
 import signupReducer from './store/reducers/signup';
 import credentialsReducer from './store/reducers/credentials';
 import linkedDidsReducer from './store/reducers/identities';
+import welcomeReducer from './store/reducers/welcome';
 
 
 const rootReducer = combineReducers({
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
     auth: authReducer,
     signup: signupReducer,
     credentials: credentialsReducer,
-    dids : linkedDidsReducer
+    dids : linkedDidsReducer,
+    welcome: welcomeReducer
 
 });
 
@@ -43,6 +45,8 @@ sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchSignup);
 sagaMiddleware.run(watchCredentials);
 sagaMiddleware.run(watchDids);
+sagaMiddleware.run(watchWelcome);
+
 
 
 

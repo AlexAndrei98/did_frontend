@@ -134,6 +134,8 @@ const Identities = () => {
         <div className={classes.Identities}>
             {linkDidComponnent}
             <p key={3} >{hashedKey}</p>
+            <p key={4} >{sha256(hashedKey)}</p>
+
             {table}
         </div>
     )

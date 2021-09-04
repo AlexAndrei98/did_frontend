@@ -59,3 +59,11 @@ export {
     linkDidFail,
     initDidsClean
 } from './identities';
+
+export {
+    fetchPublicData,
+    cleanWelcomeData,
+    setWelcomeData,
+    setWelcomeError
+}
+from './welcome'
