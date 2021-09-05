@@ -55,7 +55,7 @@ export function* linkDidsSaga(action){
         yield put(actions.initDidsClean())
         yield put(actions.fetchLinkedDidsStart())
         console.log("response data",data)
-        yield put(actions.linkDidSuccess(data))
+        // yield put(actions.linkDidSuccess(data))
         yield put(actions.didsDone())
 
 

@@ -62,9 +62,7 @@ const Identities = () => {
             dataIndex: 'publicKey',
             key: 'publicKey',
             width: 100,
-            ellipsis: {
-                showTitle: false,
-              }        
+            ellipsis: true   
         },
         {
             title: 'Entity Type',
@@ -106,7 +104,7 @@ const Identities = () => {
     if (!loading){ 
         const data = []
         identities.map( e => {
-            data.push({ name: e.name, entityType:e.entityType, publicKey: e.publicKey ,signed:e.status})
+            data.push({ name: e.name, entityType:e.entityType, publicKey: e.publicKey.slice(0,50)+'...' ,signed:e.status})
         })
     
         table = <Table scroll={{ x: true, y: true }}  columns={columns} data={data} tableLayout={'auto'} />

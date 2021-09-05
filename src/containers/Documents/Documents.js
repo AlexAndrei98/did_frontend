@@ -53,17 +53,17 @@ const Documents = (props) => {
 
 
     const columns = [
-        {
-          title: 'Public Key',
-          dataIndex: 'issued_to_public_key',
-          key: 'issued_to_public_key',
-          width: 250,
-          ellipsis:true
-        },
+        // {
+        //   title: 'Public Key',
+        //   dataIndex: 'issued_to_public_key',
+        //   key: 'issued_to_public_key',
+        //   width: 250,
+        //   ellipsis:true
+        // },
         {
             title: 'Name',
-            dataIndex: 'issuer_to_name',
-            key: 'issuer_to_name',
+            dataIndex: 'issued_to_name',
+            key: 'issued_to_name',
             width: 250,
         },
         {

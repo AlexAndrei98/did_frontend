@@ -43,7 +43,7 @@ export function* fetchDocumentsSaga(action){
                 issuer_to_name: dataCred.issuer_to_name,
                 issued_to_hashed_key: dataCred.issued_to_hashed_key,
                 issued_to_public_key: dataCred.issued_to_public_key,
-                issued_to_hashed_key : dataCred.issued_to_hashed_key,
+                issued_to_name : dataCred.issued_to_name,
                 issued_to_type : dataCred.issued_to_type,
                 issued_date: dataCred.issued_date,
                 signed: dataCred.signed,
