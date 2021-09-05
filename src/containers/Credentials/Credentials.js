@@ -24,6 +24,8 @@ const Credentials = (props) => {
 
     const credentialsLoaded = useSelector(state => state.credentials.credentials);
     const fetching = useSelector(state => state.credentials.fetching);
+    const identities = useSelector(state => state.dids.identities);
+
 
     const signCredential = useCallback((issuer_to_hashed_key,issued_to_hashed_key,issued_date ) => dispatch(actions.signCredential(issuer_to_hashed_key, issued_to_hashed_key,issued_date)), [dispatch]);
 
@@ -81,7 +83,7 @@ const Credentials = (props) => {
             key: 'signed',
             render: ( value, row, index) => { 
                 // look at line 45 in nthe linkDidsSaga
-                console.log('columns render',entityTypeUser ,credentialsLoaded[index])
+                // console.log('columns render',entityTypeUser ,credentialsLoaded[index])
                 if (credentialsLoaded[index]){
                     if(credentialsLoaded[index].signed == 'False'){
                             if (entityTypeUser == 'PERSON'){
@@ -104,7 +106,13 @@ const Credentials = (props) => {
 
     let tableData = []
     credentialsLoaded.map(e => {
+        // console.log('tableData',tableData,e)
+        let alreadyExists = tableData.filter(element => element.key == e.hashed_key)
+        console.log(alreadyExists)
+
+        if (alreadyExists.length == 0) {
         tableData.push({
+            key : e.hashed_key,
             issued_to_public_key: e.issued_to_public_key,
             issued_to_hashed_key:e.issued_to_hashed_key,
             issued_to_type: e.issued_to_type,
@@ -112,11 +120,12 @@ const Credentials = (props) => {
             signed: e.signed,
             issued_to_name: e.issued_to_name,
             issuer_to_name: e.issuer_to_name,
-            issued_to_type: e.issued_to_type,
+            issuer_to_type: e.issuer_to_type,
             issuer_to_public_key: e.issuer_to_public_key,
             issuer_to_hashed_key: e.issuer_to_hashed_key,
             children: e.more_data,
-        })
+            })
+        }
     })
     const [expandRowByClick, expandRowByClickProps] = useState(false);
     const [expandedRowKeys, setExpandedRowKeys] = React.useState([]);
@@ -144,7 +153,7 @@ const Credentials = (props) => {
     
 
 
-    if (fetching){
+    if (fetching == true){
         table= <Table scroll={{ x: true, y: true }} 
         columns={columns} 
         rowKey='issued_date'
@@ -168,7 +177,7 @@ const Credentials = (props) => {
     }
     console.log('fetching',fetching)
     const didsLinked = useSelector(state => state.dids.identities);
-    const optionsDids = [{value:''}]
+    let optionsDids = []
 
     const updateNewCredentials = () => {
         didsLinked.map(el => {
@@ -176,9 +185,9 @@ const Credentials = (props) => {
         })
 
     }
-    didsLinked.map(el => {
-        optionsDids.push({value:el.name, displayValue : el.name, publicKey : el.publicKey})
-    })
+    // didsLinked.map(el => {
+    //     optionsDids.push({value:el.name, displayValue : el.name, publicKey : el.publicKey})
+    // })
     
     const updateNewCredentialsNew = () => {
         updateNewCredentials()
@@ -202,7 +211,8 @@ const Credentials = (props) => {
                     options: optionsDids,
                     error: 'name'
                 },
-                value: optionsDids[0].value,
+                value: '',
+                placeholder: '',
                 validation: {
                     required: false,
                 },
@@ -239,6 +249,9 @@ const Credentials = (props) => {
                     },
                         {value:'DRIVER LICENSE',
                         displayValue :'DRIVER LICENSE'
+                    },
+                    {value:'BUILDING PERMIT',
+                    displayValue :'BUILDING PERMIT'
                     }
                     ],
                     error: 'Type'
@@ -261,7 +274,7 @@ const Credentials = (props) => {
     });
     
     const [metadata, setMetadata] = useState({
-        keys : ["",""],
+        keys : ["Address","Square Footage"],
         values: ["",""],
         values_count : 1
     });
@@ -280,7 +293,8 @@ const Credentials = (props) => {
 
         var result = {};
         metadata.keys.forEach((key, i) => result[key] = metadata.values[i]);
-
+        console.log('body',newCredential.issued_to_hashed_key.value)
+        console.log('identities',identities)
         let body = {
             issuer_to_name: userName,
             issuer_to_hashed_key : sha256(userName),
@@ -289,12 +303,11 @@ const Credentials = (props) => {
             issued_to_name : newCredential.issued_to_hashed_key.value,
             issued_to_hashed_key: sha256(newCredential.issued_to_hashed_key.value),
             issued_to_type: newCredential.issued_to_type.value ,
-            issued_to_public_key: optionsDids.filter(el => el.value == newCredential.issued_to_hashed_key.value)[0].publicKey ,
+            issued_to_public_key: identities.filter(el => el.name == newCredential.issued_to_hashed_key.value)[0].publicKey ,
             issued_date: newCredential.issued_to_date.value,
             signed:'False',
             more_data: result
         }
-        console.log('body',body)
         
         createCredential(body)
         fetchCredentials(userName)
@@ -324,6 +337,16 @@ const Credentials = (props) => {
         })
         console.log('updated cred on typing', updatedCredentialForm)
         setNewCredential(updatedCredentialForm);
+        if (controlName == 'issued_to_type' && event.target.value == 'PROPERTY TITLE'){
+            console.log('Selected proeprty ttile')
+            DynamicDataPoint(['Address','Square Footage'])
+        }
+        else if (controlName == 'issued_to_type' && event.target.value == 'DRIVER LICENSE'){
+            DynamicDataPoint(['Height','Weight','Current Address','DOB'])
+        }
+        else if (controlName == 'issued_to_type' && event.target.value == 'BUILDING PERMIT'){
+            DynamicDataPoint(['Address','Construction Zone','Budget Estimate'])
+        }
     }
 
     let form = (newCredentialForm.map(formElement => (
@@ -337,8 +360,17 @@ const Credentials = (props) => {
                 shouldValidate={formElement.config.validation}
                 touched={formElement.config.touched}/>
     )))
-
+    
     // BEGINNING OF METADATA
+    const DynamicDataPoint = (keys) => {
+        const values = Array(keys.length).fill('')
+        const trueMetadata = updateObject(metadata, 
+            { keys : keys,
+            values : values
+        })
+        setMetadata(trueMetadata)
+    }
+
     const addDataPoint = () => {
         const keys = metadata.keys
         keys.push("")

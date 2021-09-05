@@ -57,7 +57,8 @@ export {
     linkDid,
     linkDidSuccess,
     linkDidFail,
-    initDidsClean
+    initDidsClean,
+    didsDone
 } from './identities';
 
 export {

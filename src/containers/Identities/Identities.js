@@ -40,9 +40,6 @@ const Identities = () => {
     
 
 
-
-
-
     useEffect( () => {
         // if (identities.length > 0) {
             // console.log("entityTypeUser",entityTypeUser)
@@ -52,12 +49,6 @@ const Identities = () => {
     }, [onFetchLinkedDids,hashedKey])
 
     const [didtoLink, setDidtoLink] = useState({didToLink: ''})
-    let dids_to_show = <Spinner/>
-    if (loading){
-    dids_to_show = ( identities.map(identity => (
-        <p key= {identity.name}> {identity.name}| public key: {identity.publicKey} | {identity.entityType} | {identity.status}  </p>
-    )))
-    }
 
     const columns = [
         {
@@ -108,14 +99,15 @@ const Identities = () => {
         },
     ]
 
-    const data = []
-    identities.map( e => {
-        data.push({ name: e.name, entityType:e.entityType, publicKey: e.publicKey ,signed:e.status})
-    })
 
 
     let table = <Spinner/>
-    if (loading){ 
+    if (!loading){ 
+        const data = []
+        identities.map( e => {
+            data.push({ name: e.name, entityType:e.entityType, publicKey: e.publicKey ,signed:e.status})
+        })
+    
         table = <Table scroll={{ x: 1000, y: 300 }}  columns={columns} data={data}/>
     }
     let linkDidComponnent = null

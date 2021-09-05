@@ -1,14 +1,13 @@
 .Welcome {
-    margin: 20px auto;
-    width: 80%;
-    text-align: center;
+    margin: 5px auto;
+    width: 90%;
     box-shadow: 0 2px 3px #ccc;
     border: 1px solid #eee;
     padding: 10px;
     box-sizing: border-box;
 }
-@media (min-width: 800px) {
+@media (min-width: 500px) {
     .Welcome {
-        width: 1000px;
+        width: 600px;
     }
 }

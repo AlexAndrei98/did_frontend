@@ -27,7 +27,8 @@ export function* fetchLikedDidsSaga(action){
                 status: data1.linked_dids[sha256(action.name)]
             }))
         }
-        yield put(actions.fetchLinkedDidsStart())
+
+        yield put(actions.didsDone())
 
     }
     catch (error) {
@@ -51,11 +52,11 @@ export function* linkDidsSaga(action){
     try {
         const response = yield axiosLink.post(extended_url, modifiedData)
         let data = JSON.parse(response.data.body)
-        
+        yield put(actions.initDidsClean())
         yield put(actions.fetchLinkedDidsStart())
         console.log("response data",data)
         yield put(actions.linkDidSuccess(data))
-        yield put(actions.fetchLinkedDidsStart())
+        yield put(actions.didsDone())
 
 
     }

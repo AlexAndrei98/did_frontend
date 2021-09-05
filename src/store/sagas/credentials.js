@@ -39,7 +39,9 @@ export function* fetchCredentialsSaga(action){
             const response = yield axiosAuth.post(url, bodyCred)
             let dataCred = JSON.parse(response.data.body)
             let dataFinal = {
+                hashed_key:dataCred.hashed_key,
                 issuer_to_name: dataCred.issuer_to_name,
+                issued_to_hashed_key: dataCred.issued_to_hashed_key,
                 issued_to_public_key: dataCred.issued_to_public_key,
                 issued_to_hashed_key : dataCred.issued_to_hashed_key,
                 issued_to_type : dataCred.issued_to_type,
@@ -48,9 +50,12 @@ export function* fetchCredentialsSaga(action){
                 issuer_to_hashed_key: dataCred.issuer_to_hashed_key,
                 issuer_to_type : dataCred.issuer_to_type,
                 more_data: dataCred.more_data
-            }
-            yield put(actions.fetchCredentialsSuccess(dataFinal))
         }
+        yield put(actions.fetchCredentialsSuccess(dataFinal))
+        }
+        
+        yield put(actions.didsDone())
+
         yield put(actions.doneFetching())
 
         
@@ -109,10 +114,11 @@ export function* signCredential(action){
         yield put(actions.fetchLinkedDidsStart())
         console.log("response data",data)
         yield put(actions.linkDidSuccess(data))
-        yield put(actions.fetchLinkedDidsStart())
+        yield put(actions.didsDone())
 
 
     }
+    
     catch (error){
         console.log("response data",error)
     }

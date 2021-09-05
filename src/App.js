@@ -34,6 +34,12 @@ const Welcome = React.lazy( () => {
 
 
 const App = (props) => {
+    // DISABLE FOR ONT CACHING
+    // const { onTryAutoSignup } = props;
+
+    // useEffect( () => {
+    //     onTryAutoSignup();
+    // }, [onTryAutoSignup]);
 
     let routes = (
         <Switch>

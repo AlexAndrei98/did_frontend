@@ -24,7 +24,7 @@
 }
 
 .BuildControl button:hover:disabled {
-    background-color: #AC9980;
+    background-color: #5855e7;
     color: #ccc;
     cursor: not-allowed;
 }

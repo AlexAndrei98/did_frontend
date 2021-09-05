@@ -37,60 +37,65 @@ const Welcome = () => {
             title: 'Issuer Name',
             dataIndex: 'issuer_to_name',
             key: 'issuer_to_name',
-            width: 250,
+            width: 100,
         },
         {
             title: 'Holder Name',
             dataIndex: 'issued_to_name',
             key: 'issued_to_name',
-            width: 250,
+            width: 100,
         },
       {
           title: 'Credential Type',
           dataIndex: 'issued_to_type',
           key: 'issued_to_type',
-          width: 250,
+          width: 100,
       },
       {
           title: 'Date Created',
           dataIndex: 'issued_date',
           key: 'issued_date',
-          width: 250,
+          width: 100,
       },
       {
           title: 'Signed',
           dataIndex: 'signed',
           key: 'signed',
-          width: 250,
+          width: 100,
       }
     ]
     if(!fetching){
         console.log(data)
-        table = <Table data={data} columns={columns}/>
+        table = <Table data={data} columns={columns} style={{'width': '100%', 'text-align': 'center'}}/>
     
     }
 
     return (
         <div className={classes.Welcome}>
-            Welcome to Dids and Verified Credentials
+            <h1> DIDs and Verified Credentials for Citizens and Governments</h1> 
+            <h2>How it works:</h2>
+            Sign up for a wallet with either type of <b>ENTITY</b> or <b>PERSON</b>
             <br/>
-            How it works:
-            Sign up for a wallet with either type of ENTITY or PERSON
+            - as an ENTITY 
             <br/>
-            - as an ENTITY you can initiate a secure channel with a PERSON given
-            their ID where you can issue credentials.
+            You can initiate a secure connection with a PERSON given
+            their secret ID where you can issue credentials.
             <br/>
-            After you sign up as an entity you can link to an existing did
-            After a did channel has been secure by the other party you can issue credentials.
-            Finally you can issue a verified credential that can be confirmed by the other party.
+            You can issue a verified credential that can be confirmed by the other party that has a secure connection.
             <br/>
-            - as a PERSON you can confirm and initiate different transactions.
+            - as a PERSON 
             <br/>
-            After logging in you can see the different secure channels 
-            that wannt to conenct or are connected with you 
-            and you can secure a channel that an ENTITY can initiate.
+            You can approve a secure connection with a given ENTITY.
             <br/>
-            Finally you can see the different crendetials issued to you and sign them.
+            You can see the different verified crendetials issued to you and approve them.
+            <br/>
+            <h2> Benefits</h2>
+            <h3>Time efficency</h3>
+            This platform allows goverment employees to handle and store goverment procedures and data.
+            <h3>Transperency</h3>
+            It allows citizens also to have full visibility in what is happening and control over their data.
+            <h1> Public Data Available below</h1> 
+
             {table}
         </div>
     )

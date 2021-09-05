@@ -9,6 +9,13 @@ export const initDidsClean = () => {
 
 }
 
+export const didsDone = () => {
+    return {
+        type: actionTypes.FETCH_LINKED_DIDS_DONE
+    }
+
+}
+
 export const fetchLinkedDidsSuccess = (data) => {
     return {
         type: actionTypes.FETCH_LINKED_DIDS_SUCCESS,

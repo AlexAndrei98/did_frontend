@@ -6,6 +6,7 @@ import NavigationItems from './../NavigationItems/NavigationItems';
 
 const toolbar = (props) => (
     <header className={classes.Toolbar}>
+        <HamburgerIcon clicked={props.clicked}/>
         <div style={{'background-color': 'white', 'margin':'10px'}}>
             {props.name}
         </div>
