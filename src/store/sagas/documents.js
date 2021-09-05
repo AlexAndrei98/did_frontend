@@ -1,18 +1,18 @@
 import { put, delay, call } from 'redux-saga/effects';
 import * as actions from './../actions/index';
-import axiosCredentialsCreate from "../../axios/axios-credentials-create";
+import axiosDocumentsCreate from "../../axios/axios-documents-create";
 import sha256 from "js-sha256"
 import axiosAuth from "../../axios/axios-auth";
-import axiosCredentialsSign from "../../axios/axios-credentials-sign";
+import axiosDocumentsSign from "../../axios/axios-documents-sign";
 
 
-export function* fetchCredentialsSaga(action){
-    //fetch all of the credentials for a given user
+export function* fetchDocumentsSaga(action){
+    //fetch all of the documents for a given user
     
-    // yield put(actions.fetchCredentialsStart())
+    // yield put(actions.fetchDocumentsStart())
     let body = {"body":JSON.stringify({ hashed_key:sha256(action.name)})}
     yield put(actions.initDidsClean())
-    yield put(actions.initCredentialsClean())
+    yield put(actions.initDocumentsClean())
 
 
     let url= '/did_get'
@@ -51,7 +51,7 @@ export function* fetchCredentialsSaga(action){
                 issuer_to_type : dataCred.issuer_to_type,
                 more_data: dataCred.more_data
         }
-        yield put(actions.fetchCredentialsSuccess(dataFinal))
+        yield put(actions.fetchDocumentsSuccess(dataFinal))
         }
         
         yield put(actions.didsDone())
@@ -67,19 +67,19 @@ export function* fetchCredentialsSaga(action){
 }
 
 
-export function* createCredentialSaga(action){
-    //fetch all of the credentials for a given user
+export function* createDocumentSaga(action){
+    //fetch all of the documents for a given user
     let payload = {"body":JSON.stringify(action.body)
     }
 
     let extended_url
     extended_url = '/credentials_create'
     try {
-        const response = yield axiosCredentialsCreate.post(extended_url, payload)
+        const response = yield axiosDocumentsCreate.post(extended_url, payload)
         let data = JSON.parse(response.data.body)
-        console.log("succesfully created credentials response",data)
-        yield put(actions.createCredentialSuccess())
-        // yield put(actions.fetchCredentials())
+        console.log("succesfully created documents response",data)
+        yield put(actions.createDocumentSuccess())
+        // yield put(actions.fetchDocuments())
 
 
 
@@ -94,7 +94,7 @@ export function* createCredentialSaga(action){
 
 
 
-export function* signCredential(action){
+export function* signDocument(action){
 
     let modifiedData = {"body":JSON.stringify( {
         'issuer_to_hashed_key': action.issuer_to_hashed_key,
@@ -108,7 +108,7 @@ export function* signCredential(action){
     let extended_url
     extended_url = '/credentials_sign'
     try {
-        const response = yield axiosCredentialsSign.post(extended_url, modifiedData)
+        const response = yield axiosDocumentsSign.post(extended_url, modifiedData)
         let data = JSON.parse(response.data.body)
         
         yield put(actions.fetchLinkedDidsStart())

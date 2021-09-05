@@ -2,7 +2,7 @@ import { put, delay, call } from 'redux-saga/effects';
 import * as actions from './../actions/index';
 import axios from "../../axios/axios-signup";
 import sha256 from "js-sha256"
-
+import keypair from 'keypair'
 
 export function* signupUserSaga(action) {
     yield put(actions.signupStart());
@@ -12,16 +12,16 @@ export function* signupUserSaga(action) {
         entityType: action.entityType,
         seed: action.seed
     }
-    console.log(action)
+    let pair = keypair()
     let modifiedData = {"body":JSON.stringify({
         'hashed_key': sha256(action.name), 
-        'public_key': '--BEGIN PUBLIC KEY ----- 324nk6jk4n6k453yh34b5hj', 
-        'private_key': '--BEGIN PRIVATE KEY ----- nvjks34ktn4j2tn4h2baa', 
+        'public_key': pair.public, 
+        'private_key': pair.private, 
         'name': signupData.name, 
         'entityType': signupData.entityType, 
         'password': sha256(action.password),
         'seed_phrase': action.seed.split(" "), 
-        'signed_credentials' :{},
+        'signed_documents' :{},
         'linked_dids': {}        
         })
     }

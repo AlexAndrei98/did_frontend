@@ -18,8 +18,8 @@ const Signup = React.lazy( () => {
     return import("./containers/Signup/Signup");
 });
 
-const Credentials = React.lazy( () => {
-    return import('./containers/Credentials/Credentials');
+const Documents = React.lazy( () => {
+    return import('./containers/Documents/Documents');
 });
 
 
@@ -54,7 +54,7 @@ const App = (props) => {
         routes = (
             <Switch>
                 {/* <Route path={'/orders'} render={ (props) => <Orders {...props}/>}/> */}
-                <Route path={'/credentials'} render={ (props) => <Credentials {...props}/>}/>
+                <Route path={'/documents'} render={ (props) => <Documents {...props}/>}/>
                 <Route path={'/identities'} render={ (props) => <Identities {...props}/>}/>
                 <Route path={'/logout'} component={Logout}/>
                 <Route path='/' component={Welcome}/>

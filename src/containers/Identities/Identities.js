@@ -55,27 +55,28 @@ const Identities = () => {
           title: 'Name',
           dataIndex: 'name',
           key: 'name',
-          width: 250,
-          ellipsis: true
+          width: 100,
         },
         {
             title: 'Public Key',
             dataIndex: 'publicKey',
             key: 'publicKey',
-            width: 250,
-            ellipsis: true
+            width: 100,
+            ellipsis: {
+                showTitle: false,
+              }        
         },
         {
             title: 'Entity Type',
             dataIndex: 'entityType',
             key: 'entityType',
-            width: 250,
-            ellipsis: true
+            width: 100,
         },
         {
             title: 'Signed',
             dataIndex: '',
             key: 'signed',
+            width: 100,
             render: ( value, row, index) => { 
                 //look at line 45 in nthe linkDidsSaga
                 console.log('columns render',entityTypeUser ,identities[index])
@@ -108,7 +109,7 @@ const Identities = () => {
             data.push({ name: e.name, entityType:e.entityType, publicKey: e.publicKey ,signed:e.status})
         })
     
-        table = <Table scroll={{ x: 1000, y: 300 }}  columns={columns} data={data}/>
+        table = <Table scroll={{ x: true, y: true }}  columns={columns} data={data} tableLayout={'auto'} />
     }
     let linkDidComponnent = null
     if (entityTypeUser == 'ENTITY'){

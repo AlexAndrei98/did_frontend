@@ -1,4 +1,4 @@
-.ButtonCredentials {
+.ButtonDocuments {
     background-color: transparent;
     border: none;
     color: white;
@@ -10,7 +10,7 @@
     font-weight: bold;
 }
 
-.Credentials {
+.Documents {
     margin: 20px auto;
     width: 80%;
     text-align: center;

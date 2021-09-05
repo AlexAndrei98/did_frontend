@@ -1,53 +1,53 @@
 import Table from 'rc-table';
 import React, {useEffect, useState, useCallback} from 'react';
 import Aux from '../../hoc/Aux/Aux';
-import Modal from './../../components/UI/Modal/Modal';
-import Spinner from './../../components/UI/Spinner/Spinner';
+import Modal from '../../components/UI/Modal/Modal';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { useDispatch, useSelector} from "react-redux";
 import axios from '../../axios/axios-orders';
 import * as actions from '../../store/actions/index';
-import classes from './Credentials.module.css';
-import Input from './../../components/UI/Input/Input';
-import Button from './../../components/UI/Button/Button';
+import classes from './Documents.module.css';
+import Input from '../../components/UI/Input/Input';
+import Button from '../../components/UI/Button/Button';
 import { updateObject } from "../../shared/utility";
 import { checkValidity } from "../../shared/validation";
 import { sha256 } from 'js-sha256';
 import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
-const Credentials = (props) => {
+const Documents = (props) => {
 
     const dispatch = useDispatch();
     const userName = useSelector( state => {return state.auth.name})
     const entityTypeUser = useSelector(state => state.auth.entityType);
     const publicKey = useSelector(state => state.auth.publicKey);
 
-    const credentialsLoaded = useSelector(state => state.credentials.credentials);
-    const fetching = useSelector(state => state.credentials.fetching);
+    const documentsLoaded = useSelector(state => state.documents.documents);
+    const fetching = useSelector(state => state.documents.fetching);
     const identities = useSelector(state => state.dids.identities);
 
 
-    const signCredential = useCallback((issuer_to_hashed_key,issued_to_hashed_key,issued_date ) => dispatch(actions.signCredential(issuer_to_hashed_key, issued_to_hashed_key,issued_date)), [dispatch]);
+    const signDocument = useCallback((issuer_to_hashed_key,issued_to_hashed_key,issued_date ) => dispatch(actions.signDocument(issuer_to_hashed_key, issued_to_hashed_key,issued_date)), [dispatch]);
 
-    //State and functions to load all of the credentials in a table
-    const fetchCredentials = useCallback((userName) => dispatch(actions.fetchCredentials(userName)), [dispatch]);
+    //State and functions to load all of the documents in a table
+    const fetchDocuments = useCallback((userName) => dispatch(actions.fetchDocuments(userName)), [dispatch]);
     useEffect( () => {
         // if (identities.length > 0) {
             // console.log("entityTypeUser",entityTypeUser)
 
-            fetchCredentials(userName);
+            fetchDocuments(userName);
         // }
-    }, [fetchCredentials,userName])
+    }, [fetchDocuments,userName])
 
     const creating = useSelector( state => {
-        return state.credentials.creating
+        return state.documents.creating
     })
     let table= <Spinner/>
 
     const sign = (index) => {
         console.log(tableData[index])
         console.log(tableData[index].issuer_to_hashed_key, tableData[index].issued_to_hashed_key,tableData[index].issued_date)
-        signCredential(tableData[index].issuer_to_hashed_key, tableData[index].issued_to_hashed_key,tableData[index].issued_date)
+        signDocument(tableData[index].issuer_to_hashed_key, tableData[index].issued_to_hashed_key,tableData[index].issued_date)
 
     }
 
@@ -58,6 +58,7 @@ const Credentials = (props) => {
           dataIndex: 'issued_to_public_key',
           key: 'issued_to_public_key',
           width: 250,
+          ellipsis:true
         },
         {
             title: 'Name',
@@ -66,7 +67,7 @@ const Credentials = (props) => {
             width: 250,
         },
         {
-            title: 'Credential Type',
+            title: 'Document Type',
             dataIndex: 'issued_to_type',
             key: 'issued_to_type',
             width: 250,
@@ -83,9 +84,9 @@ const Credentials = (props) => {
             key: 'signed',
             render: ( value, row, index) => { 
                 // look at line 45 in nthe linkDidsSaga
-                // console.log('columns render',entityTypeUser ,credentialsLoaded[index])
-                if (credentialsLoaded[index]){
-                    if(credentialsLoaded[index].signed == 'False'){
+                // console.log('columns render',entityTypeUser ,documentsLoaded[index])
+                if (documentsLoaded[index]){
+                    if(documentsLoaded[index].signed == 'False'){
                             if (entityTypeUser == 'PERSON'){
                                 return <a href="#" onClick={() => sign(index)} > Secure this Connection </a>
                             }
@@ -105,10 +106,10 @@ const Credentials = (props) => {
     ]
 
     let tableData = []
-    credentialsLoaded.map(e => {
+    documentsLoaded.map(e => {
         // console.log('tableData',tableData,e)
         let alreadyExists = tableData.filter(element => element.key == e.hashed_key)
-        console.log(alreadyExists)
+        console.log('optionnn',e)
 
         if (alreadyExists.length == 0) {
         tableData.push({
@@ -162,7 +163,7 @@ const Credentials = (props) => {
             expandedRowRender: (record, index, indent, expanded) =>
               expanded ? (Object.entries(record.children).map(([key, value], i) => {
                 return (
-                    <div key={key}>
+                    <div key={key} style={{'text-align': 'left', 'leftMargin':'600px'}}>
                         {key}: {value}
                     </div>
                 )
@@ -179,9 +180,11 @@ const Credentials = (props) => {
     const didsLinked = useSelector(state => state.dids.identities);
     let optionsDids = []
 
-    const updateNewCredentials = () => {
+    const updateNewDocuments = () => {
         didsLinked.map(el => {
+            if (el.status == 'Link'){
             optionsDids.push({value:el.name, displayValue : el.name, publicKey : el.publicKey})
+            }
         })
 
     }
@@ -189,20 +192,21 @@ const Credentials = (props) => {
     //     optionsDids.push({value:el.name, displayValue : el.name, publicKey : el.publicKey})
     // })
     
-    const updateNewCredentialsNew = () => {
-        updateNewCredentials()
-        const updatedCredentialForm = updateObject(newCredential, {
-            issued_to_hashed_key : updateObject(newCredential.issued_to_hashed_key, {
-                elementConfig: updateObject(newCredential.issued_to_hashed_key.elementConfig, {
+    const updateNewDocumentsNew = () => {
+        updateNewDocuments()
+        const updatedDocumentForm = updateObject(newDocument, {
+            issued_to_hashed_key : updateObject(newDocument.issued_to_hashed_key, {
+                elementConfig: updateObject(newDocument.issued_to_hashed_key.elementConfig, {
                     options: optionsDids
-                })
+                }),
+                value: optionsDids[0].value
             })
         })
-        setNewCredential(updatedCredentialForm);
+        setNewDocument(updatedDocumentForm);
     }
     let date = new Date()
     let _date = date.toLocaleString('en-GB')
-    const [newCredential, setNewCredential] = useState({
+    const [newDocument, setNewDocument] = useState({
         issued_to_hashed_key: {
             elementType: 'select',
                 elementConfig: {
@@ -279,13 +283,14 @@ const Credentials = (props) => {
         values_count : 1
     });
 
+    const close = ()  => dispatch(actions.createDocumentSuccess())
 
-    const createCredentialStart = ()  => dispatch(actions.createCredentialStart())
-    const createCredential = (value)  => dispatch(actions.createCredential(value))
+    const createDocumentStart = ()  => dispatch(actions.createDocumentStart())
+    const createDocument = (value)  => dispatch(actions.createDocument(value))
 
-    const startCredential = () => {
-        updateNewCredentialsNew()
-        createCredentialStart()
+    const startDocument = () => {
+        updateNewDocumentsNew()
+        createDocumentStart()
         console.log('optionsDids',optionsDids)
     }
     const createRequest = () => {
@@ -293,50 +298,50 @@ const Credentials = (props) => {
 
         var result = {};
         metadata.keys.forEach((key, i) => result[key] = metadata.values[i]);
-        console.log('body',newCredential.issued_to_hashed_key.value)
+        console.log('body',newDocument.issued_to_hashed_key.value)
         console.log('identities',identities)
         let body = {
             issuer_to_name: userName,
             issuer_to_hashed_key : sha256(userName),
             issuer_to_type : entityTypeUser,
             issuer_to_public_key : publicKey,
-            issued_to_name : newCredential.issued_to_hashed_key.value,
-            issued_to_hashed_key: sha256(newCredential.issued_to_hashed_key.value),
-            issued_to_type: newCredential.issued_to_type.value ,
-            issued_to_public_key: identities.filter(el => el.name == newCredential.issued_to_hashed_key.value)[0].publicKey ,
-            issued_date: newCredential.issued_to_date.value,
+            issued_to_name : newDocument.issued_to_hashed_key.value,
+            issued_to_hashed_key: sha256(newDocument.issued_to_hashed_key.value),
+            issued_to_type: newDocument.issued_to_type.value ,
+            issued_to_public_key: identities.filter(el => el.name == newDocument.issued_to_hashed_key.value)[0].publicKey ,
+            issued_date: newDocument.issued_to_date.value,
             signed:'False',
             more_data: result
         }
         
-        createCredential(body)
-        fetchCredentials(userName)
+        createDocument(body)
+        fetchDocuments(userName)
     }
     //issuer_to_ fields: userName, entityTypeUser, entityTypePublicKey 
-    // issued_to fields: newCredential.issued_to_hashed_key.value, newCredential.issued_to_type.value , newCredential.issued_date.value 
-    // optionsDids.filter(e => el.name ==  newCredential.issued_to_hashed_key.value).publicKey 
+    // issued_to fields: newDocument.issued_to_hashed_key.value, newDocument.issued_to_type.value , newDocument.issued_date.value 
+    // optionsDids.filter(e => el.name ==  newDocument.issued_to_hashed_key.value).publicKey 
     
     
 
     let modalHandler
-    let newCredentialForm = []
-    for (let key in newCredential){
-        newCredentialForm.push({
+    let newDocumentForm = []
+    for (let key in newDocument){
+        newDocumentForm.push({
             key:key,
-            config: newCredential[key]
+            config: newDocument[key]
         })
     }
     const inputChangedHandler = (event, controlName) => {
-        const updatedCredentialForm = updateObject(newCredential, {
-            [controlName]: updateObject(newCredential[controlName], {
+        const updatedDocumentForm = updateObject(newDocument, {
+            [controlName]: updateObject(newDocument[controlName], {
                 value: event.target.value,
                 valid: checkValidity(event.target.value, 
-                    newCredential[controlName].validation),
+                    newDocument[controlName].validation),
                 touched: true
             })
         })
-        console.log('updated cred on typing', updatedCredentialForm)
-        setNewCredential(updatedCredentialForm);
+        console.log('updated cred on typing', updatedDocumentForm)
+        setNewDocument(updatedDocumentForm);
         if (controlName == 'issued_to_type' && event.target.value == 'PROPERTY TITLE'){
             console.log('Selected proeprty ttile')
             DynamicDataPoint(['Address','Square Footage'])
@@ -349,7 +354,7 @@ const Credentials = (props) => {
         }
     }
 
-    let form = (newCredentialForm.map(formElement => (
+    let form = (newDocumentForm.map(formElement => (
         <Input
         key={formElement.key}
                 elementType={formElement.config.elementType}
@@ -432,18 +437,19 @@ const Credentials = (props) => {
     // END OF METADATA
 
     return (
-        <div className={classes.Credentials}>
+        <div className={classes.Documents}>
             <Aux>
                 {table}
 
-                <button classes = {classes.button} onClick={startCredential}>
-                    Create new credentials 
+                <button classes = {classes.button} onClick={startDocument}>
+                    Create new documents 
                 </button>
                 <Modal show={creating} close={modalHandler}>
                     {form}
                     {alert_text}
                     {key_value_pair}
-                    <button onClick={createRequest}> close </button>
+                    <button onClick={createRequest}> create Document </button>
+                    <button onClick={close}> close </button>
 
                 </Modal>
             </Aux>
@@ -451,4 +457,4 @@ const Credentials = (props) => {
     )
 
 }
-export default withErrorHandler(Credentials, axios);
+export default withErrorHandler(Documents, axios);

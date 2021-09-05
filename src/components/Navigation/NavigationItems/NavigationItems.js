@@ -6,7 +6,7 @@ const navigationItems = (props) => (
     <ul className={classes.NavigationItems}>
         <NavigationItem link='/'>Welcome</NavigationItem>
         {props.isAuthenticated &&
-        <NavigationItem link='/credentials'>Credentials</NavigationItem>
+        <NavigationItem link='/documents'>Documents</NavigationItem>
         }
         {props.isAuthenticated &&
         <NavigationItem link='/identities'>Identitites</NavigationItem>

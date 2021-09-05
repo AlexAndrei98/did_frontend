@@ -58,14 +58,14 @@ const BurgerBuilder = (props) => {
         if(isAuthenticated) {
             setPurchasing(!purchasing);
         } else {
-            onSetRedirect('/credentials')
-            props.history.push('/credentials')
+            onSetRedirect('/documents')
+            props.history.push('/documents')
         }
     }
 
     const purchaseContinue = () => {
         onInitPurchase();
-        props.history.push('/credentials');
+        props.history.push('/documents');
     }
 
     const disabledInfo = {

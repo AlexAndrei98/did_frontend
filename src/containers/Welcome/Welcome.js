@@ -46,7 +46,7 @@ const Welcome = () => {
             width: 100,
         },
       {
-          title: 'Credential Type',
+          title: 'Document Type',
           dataIndex: 'issued_to_type',
           key: 'issued_to_type',
           width: 100,
@@ -66,36 +66,35 @@ const Welcome = () => {
     ]
     if(!fetching){
         console.log(data)
-        table = <Table data={data} columns={columns} style={{'width': '100%', 'text-align': 'center'}}/>
+        table = <Table data={data} columns={columns} style={{'width': '100%', 'text-align': 'center'}} emptyText={() => <h2>No Public Records Found</h2>  }/>
     
     }
 
     return (
         <div className={classes.Welcome}>
-            <h1> DIDs and Verified Credentials for Citizens and Governments</h1> 
+            <h1> Decentralized Identities and Verified Documents Managment for Citizens and Governments</h1> 
             <h2>How it works:</h2>
             Sign up for a wallet with either type of <b>ENTITY</b> or <b>PERSON</b>
             <br/>
             - as an ENTITY 
             <br/>
             You can initiate a secure connection with a PERSON given
-            their secret ID where you can issue credentials.
+            their secret ID where you can issue documents.
             <br/>
-            You can issue a verified credential that can be confirmed by the other party that has a secure connection.
+            You can issue a verified documents that can be confirmed by the other party that has a secure connection.
             <br/>
             - as a PERSON 
             <br/>
             You can approve a secure connection with a given ENTITY.
             <br/>
-            You can see the different verified crendetials issued to you and approve them.
+            You can see the different verified documents issued to you and approve them.
             <br/>
             <h2> Benefits</h2>
             <h3>Time efficency</h3>
             This platform allows goverment employees to handle and store goverment procedures and data.
             <h3>Transperency</h3>
-            It allows citizens also to have full visibility in what is happening and control over their data.
+            It allows citizens also to have full visibility in what is happening with their goverment and control over their data.
             <h1> Public Data Available below</h1> 
-
             {table}
         </div>
     )

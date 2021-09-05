@@ -35,18 +35,18 @@ export {
 } from './signup';
 
 export {
-    createCredential,
-    createCredentialStart,
-    fetchCredentials,
-    createCredentialSuccess,
-    createCredentialFail,
-    fetchCredentialsStart,
-    fetchCredentialsSuccess,
-    fetchCredentialsFail,
+    createDocument,
+    createDocumentStart,
+    fetchDocuments,
+    createDocumentSuccess,
+    createDocumentFail,
+    fetchDocumentsStart,
+    fetchDocumentsSuccess,
+    fetchDocumentsFail,
     doneFetching,
-    initCredentialsClean,
-    signCredential
-} from './credentials';
+    initDocumentsClean,
+    signDocument
+} from './documents';
 
 
 export {
@@ -66,5 +66,4 @@ export {
     cleanWelcomeData,
     setWelcomeData,
     setWelcomeError
-}
-from './welcome'
+}from './welcome'

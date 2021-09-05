@@ -1,7 +1,7 @@
 # Burger Builder
 # PLAN OF ATTACK FOR BUILDING THE FRONTEND 
 1. rewrite auth to work with the did create api 
-2. add an extra page similar to orders for credentials.
+2. add an extra page similar to orders for documents.
 
 ## How it works
 in index.js there is a root reducers for interactions for each page.
