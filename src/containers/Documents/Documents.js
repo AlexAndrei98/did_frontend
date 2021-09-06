@@ -163,7 +163,7 @@ const Documents = (props) => {
             expandedRowRender: (record, index, indent, expanded) =>
               expanded ? (Object.entries(record.children).map(([key, value], i) => {
                 return (
-                    <div key={key} style={{'text-align': 'left', 'leftMargin':'600px'}}>
+                    <div key={key} style={{'textAlign': 'left', 'leftMargin':'600px'}}>
                         {key}: {value}
                     </div>
                 )
@@ -423,15 +423,15 @@ const Documents = (props) => {
         </div>
     }
     //iterate
-    let key_value_pair = (_values.map ( el => (<div>
-        {userName} Data points  for {el.index} 
+    let key_value_pair = (_values.map ( el => (<div style={{'textAlign':'left'}}>
         <br/>
-        key: {el.key}  value: {el.value}
-        <br/>
-        <button onClick={(e) => deleteDataPoint(el.index)}> delete elemente 
-        </button>
+        <b> Key:</b>
         <input value={el.key} onChange={ (e) => setDataPoint(el.index,"keys",e.target.value)}/>
-        <input value={el.value} onChange={ (e) => setDataPoint(el.index,"values",e.target.value)}/>    
+        <br/>
+        <b>value:</b> 
+         <input value={el.value} onChange={ (e) => setDataPoint(el.index,"values",e.target.value)}/>    
+        <br/>
+        <button onClick={(e) => deleteDataPoint(el.index)}> delete elemente</button>
         <button onClick={addDataPoint}> add more </button>
     </div>)))
     // END OF METADATA
@@ -447,6 +447,7 @@ const Documents = (props) => {
                 <Modal show={creating} close={modalHandler}>
                     {form}
                     {alert_text}
+                    Add evidence data:
                     {key_value_pair}
                     <button onClick={createRequest}> create Document </button>
                     <button onClick={close}> close </button>

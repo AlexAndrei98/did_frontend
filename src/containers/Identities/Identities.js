@@ -18,6 +18,7 @@ const Identities = () => {
     const dispatch = useDispatch();
     const hashedKey = useSelector(state => state.auth.name);
     const entityTypeUser = useSelector(state => state.auth.entityType);
+    const entitypublicKey = useSelector(state => state.auth.publicKey);
 
     const identities = useSelector(state => state.dids.identities);
     const loading = useSelector(state => state.dids.loading);
@@ -125,7 +126,10 @@ const Identities = () => {
         <div className={classes.Identities}>
             {linkDidComponnent}
             <p key={3} >{hashedKey}</p>
+            <h3>Secret Link ID</h3>
             <p key={4} >{sha256(hashedKey)}</p>
+            <h3>Public Link ID</h3>
+            <p key={4} >{entitypublicKey}</p>
 
             {table}
         </div>
