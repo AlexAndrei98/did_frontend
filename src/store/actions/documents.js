@@ -2,11 +2,6 @@
 import * as actionTypes from './actionTypes';
 
 
-export const shareDone = () => {
-    return {
-        type: actionTypes.SHARE_DOCUMENT_DONE
-    }
-}
 
 
 export const shareDocumentInit = () => {

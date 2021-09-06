@@ -485,54 +485,6 @@ const Documents = (props) => {
     </div>)))
     // END OF METADATA
 
-    const sharing = useSelector(state => state.documents.sharing);
-
-
-    const shareDocument = (value)  => dispatch(actions.shareDocument(value))
-    const startSharing = () => dispatch(actions.shareDocumentInit())
-    const closeSharing = () => dispatch(actions.shareDone())
-
-    let shareRequest = (data) => {
-        shareDocument()
-    }
-
-    const [selectedFields, setSelectedFields] = useState([])
-    
-    const [sharedDocument, setSharedDocument] = useState({
-        issued_to_hashed_key: {
-            elementType: 'select',
-                elementConfig: {
-                    name: 'Issued to ',
-                    type: 'text',
-                    options: [
-                        {value:'PROPERTY TITLE',
-                        displayValue :'PROPERTY TITLE'
-                    },
-                        {value:'DRIVER LICENSE',
-                        displayValue :'DRIVER LICENSE'
-                    },
-                    {value:'BUILDING PERMIT',
-                    displayValue :'BUILDING PERMIT'
-                    }
-                    ],
-                    error: 'Type'
-                },
-                value: 'PROPERTY TITLE',
-                validation: {
-                    required: true,
-                },
-                
-                valid: false,
-                touched: false
-        }
-    }
-    )
-
-     
-    let shared =
-        null
-    
-
     return (
         <div className={classes.Documents}>
             <Aux>
@@ -541,9 +493,6 @@ const Documents = (props) => {
                 <button classes = {classes.button} onClick={startDocument}>
                     Create new documents 
                 </button>
-                <button classes = {classes.button} onClick={startSharing}>
-                    Share new documents 
-                </button>
                 <Modal show={creating} close={modalHandler}>
                     {form}
                     {alert_text}
@@ -551,12 +500,8 @@ const Documents = (props) => {
                     {key_value_pair}
                     <button onClick={createRequest}> create Document </button>
                     <button onClick={close}> close </button>
-                </Modal>
-                <Modal show={sharing} close={modalHandler}>
-                    {shared}
-                <button onClick={closeSharing}> close </button>
-                </Modal>
 
+                </Modal>
             </Aux>
         </div>
     )
