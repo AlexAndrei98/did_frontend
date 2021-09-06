@@ -48,7 +48,8 @@ export {
     signDocument,
     shareDocument,
     shareDocumentSuccess,
-    shareDocumentInit
+    shareDocumentInit,
+    shareDone
 } from './documents';
 
 

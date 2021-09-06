@@ -14,6 +14,10 @@ const shareDocumentInit = ( state, action ) => {
     return updateObject( state, { sharing: true } );
 };
 
+const shareDocumentDone = ( state, action ) => {
+    return updateObject( state, { sharing: false } );
+};
+
 const createDocumentStart = ( state, action ) => {
     return updateObject( state, { creating: true } );
 };
@@ -118,11 +122,7 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.INIT_DOCUMENTS: return initDocuments( state, action );
         case actionTypes.SIGN_DOCUMENT_SUCCESS: return signDocumentDone( state, action );
         case actionTypes.SHARE_DOCUMENT_INIT: return shareDocumentInit( state, action );
-
-        
-
-
-        
+        case actionTypes.SHARE_DOCUMENT_DONE: return shareDocumentDone( state, action );
         default: return state;
     }
 };
