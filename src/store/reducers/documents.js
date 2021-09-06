@@ -29,7 +29,7 @@ const createDocumentSuccess = ( state, action ) => {
 
 const initDocuments = ( state, action ) => {
 
-    return updateObject( state, { documents: [] } );
+    return updateObject( state, { documents: [] , fetching: false } );
 };
 
 const fetchDocumentsDone = ( state, action ) => {

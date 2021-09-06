@@ -31,11 +31,117 @@ const Documents = (props) => {
 
     //State and functions to load all of the documents in a table
     const fetchDocuments = useCallback((userName) => dispatch(actions.fetchDocuments(userName)), [dispatch]);
+
+    const [columns, setColumns] = useState(
+        {columns : [
+            // {
+            //   title: 'Public Key',
+            //   dataIndex: 'issued_to_public_key',
+            //   key: 'issued_to_public_key',
+            //   width: 250,
+            //   ellipsis:true
+            // },
+            {
+                title: 'Name',
+                dataIndex: 'issuer_to_name',
+                key: 'issuer_to_name',
+                width: 250,
+            },
+            {
+                title: 'Document Type',
+                dataIndex: 'issued_to_type',
+                key: 'issued_to_type',
+                width: 250,
+            },
+            {
+                title: 'Date Created',
+                dataIndex: 'issued_date',
+                key: 'issued_date',
+                width: 250,
+            },
+            {
+                title: 'Signed',
+                dataIndex: '',
+                key: 'signed',
+                render: ( value, row, index) => { 
+                    // look at line 45 in nthe linkDidsSaga
+                    // console.log('columns render',entityTypeUser ,documentsLoaded[index])
+                    console.log('documentsLoaded',documentsLoaded)
+                    if (documentsLoaded[index]){
+                        if(documentsLoaded[index].signed == 'False'){
+                                if (entityTypeUser == 'PERSON'){
+                                    return <a href="#" onClick={() => sign(index)} > Confirm this Document </a>
+                                }
+                            else{
+                                return <p>Not signed</p>
+                            }
+                        }
+                        else { 
+                            return  <p> Signed</p> 
+                        } 
+                    }
+                    else {
+                        return  <p> Waiting</p>
+                    }
+                },
+            },
+        ]})
+
+        
     useEffect( () => {
         // if (identities.length > 0) {
             // console.log("entityTypeUser",entityTypeUser)
 
             fetchDocuments(userName);
+
+            if (entityTypeUser =='ENTITY'){
+            let _columns = [{
+                title: 'Name',
+                dataIndex: 'issued_to_name',
+                key: 'issued_to_name',
+                width: 250,
+            },
+            {
+                title: 'Document Type',
+                dataIndex: 'issued_to_type',
+                key: 'issued_to_type',
+                width: 250,
+            },
+            {
+                title: 'Date Created',
+                dataIndex: 'issued_date',
+                key: 'issued_date',
+                width: 250,
+            },
+            {
+                title: 'Signed',
+                dataIndex: '',
+                key: 'signed',
+                render: ( value, row, index) => { 
+                    // look at line 45 in nthe linkDidsSaga
+                    // console.log('columns render',entityTypeUser ,documentsLoaded[index])
+                    if (documentsLoaded[index]){
+                        if(documentsLoaded[index].signed == 'False'){
+                                if (entityTypeUser == 'PERSON'){
+                                    return <a href="#" onClick={() => sign(index)} > Confirm this Document </a>
+                                }
+                            else{
+                                return <p>Not signed</p>
+                            }
+                        }
+                        else { 
+                            return  <p> Signed</p> 
+                        } 
+                    }
+                    else {
+                        return  <p> Waiting</p>
+                    }
+                },
+            },]
+            console.log('columns old',columns.columns.splice(1,))
+
+            setColumns(updateObject(columns, {columns:_columns}))
+        }
         // }
     }, [fetchDocuments,userName])
 
@@ -50,61 +156,7 @@ const Documents = (props) => {
         signDocument(tableData[index].issuer_to_hashed_key, tableData[index].issued_to_hashed_key,tableData[index].issued_date)
 
     }
-
-
-    const columns = [
-        // {
-        //   title: 'Public Key',
-        //   dataIndex: 'issued_to_public_key',
-        //   key: 'issued_to_public_key',
-        //   width: 250,
-        //   ellipsis:true
-        // },
-        {
-            title: 'Name',
-            dataIndex: 'issued_to_name',
-            key: 'issued_to_name',
-            width: 250,
-        },
-        {
-            title: 'Document Type',
-            dataIndex: 'issued_to_type',
-            key: 'issued_to_type',
-            width: 250,
-        },
-        {
-            title: 'Date Created',
-            dataIndex: 'issued_date',
-            key: 'issued_date',
-            width: 250,
-        },
-        {
-            title: 'Signed',
-            dataIndex: '',
-            key: 'signed',
-            render: ( value, row, index) => { 
-                // look at line 45 in nthe linkDidsSaga
-                // console.log('columns render',entityTypeUser ,documentsLoaded[index])
-                if (documentsLoaded[index]){
-                    if(documentsLoaded[index].signed == 'False'){
-                            if (entityTypeUser == 'PERSON'){
-                                return <a href="#" onClick={() => sign(index)} > Secure this Connection </a>
-                            }
-                        else{
-                            return <p>Not signed</p>
-                        }
-                    }
-                    else { 
-                        return  <p> Signed</p> 
-                    } 
-                }
-                else {
-                    return  <p> Waiting</p>
-                }
-            },
-        },
-    ]
-
+   
     let tableData = []
     documentsLoaded.map(e => {
         // console.log('tableData',tableData,e)
@@ -156,7 +208,7 @@ const Documents = (props) => {
 
     if (fetching == true){
         table= <Table scroll={{ x: true, y: true }} 
-        columns={columns} 
+        columns={columns.columns} 
         rowKey='issued_date'
         expandable={{
             expandRowByClick,
@@ -188,9 +240,7 @@ const Documents = (props) => {
         })
 
     }
-    // didsLinked.map(el => {
-    //     optionsDids.push({value:el.name, displayValue : el.name, publicKey : el.publicKey})
-    // })
+
     
     const updateNewDocumentsNew = () => {
         updateNewDocuments()
@@ -291,7 +341,6 @@ const Documents = (props) => {
     const startDocument = () => {
         updateNewDocumentsNew()
         createDocumentStart()
-        console.log('optionsDids',optionsDids)
     }
     const createRequest = () => {
 
