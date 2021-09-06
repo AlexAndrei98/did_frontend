@@ -34,6 +34,7 @@ export function* fetchDocumentsSaga(action){
                 status: data1.linked_dids[sha256(action.name)]
             }))
         }
+        let _ddata = []
         for (let key in data.signed_credentials){
             let bodyCred = {"body":JSON.stringify({ hashed_key:key })}
             const response = yield axiosAuth.post(url, bodyCred)
@@ -51,9 +52,17 @@ export function* fetchDocumentsSaga(action){
                 issuer_to_type : dataCred.issuer_to_type,
                 more_data: dataCred.more_data
         }
-        yield put(actions.fetchDocumentsSuccess(dataFinal))
+        if(dataFinal.hashed_key !== ''){
+            _ddata.push(dataFinal)
+            console.log(dataFinal)
+
         }
-        
+        yield put(actions.fetchDocumentsSuccess(dataFinal))
+
+        }
+
+        // yield put(actions.fetchDocumentsSuccess(_ddata))
+
         yield put(actions.didsDone())
 
         yield put(actions.doneFetching())
@@ -91,7 +100,6 @@ export function* createDocumentSaga(action){
 
 
 }
-
 
 
 export function* signDocument(action){

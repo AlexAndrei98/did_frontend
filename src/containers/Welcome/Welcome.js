@@ -72,7 +72,7 @@ const Welcome = () => {
 
     return (
         <div className={classes.Welcome}>
-            <h1> Decentralized Identities and Verified Documents Managment for Citizens and Governments</h1> 
+            <h1> Decentralized Identities for Citizens and Verified Documents Managment for Governments</h1> 
             <h2>How it works:</h2>
             Sign up for a wallet with either type of <b>ENTITY</b> or <b>PERSON</b>
             <br/>

@@ -123,13 +123,11 @@ const Identities = () => {
 
 
     return (
-        <div className={classes.Identities}>
+        <div className={classes.Identities } >
             {linkDidComponnent}
             <p key={3} >{hashedKey}</p>
-            <h3>Secret Link ID</h3>
-            <p key={4} >{sha256(hashedKey)}</p>
-            <h3>Public Link ID</h3>
-            <p key={4} >{entitypublicKey}</p>
+            <p key={4} > <b>Secret ID</b> {sha256(hashedKey)}</p>
+            <p key={5}  ><b>Public Key</b> {entitypublicKey.slice(30,100)}...</p>
 
             {table}
         </div>
