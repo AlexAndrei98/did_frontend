@@ -5,15 +5,8 @@ const initialState = {
     documents: [],
     fetching: false,
     error: false,
-    creating: false,
-    sharing:false
+    creating: false
 }
-
-
-const shareDocumentInit = ( state, action ) => {
-    return updateObject( state, { sharing: true } );
-};
-
 const createDocumentStart = ( state, action ) => {
     return updateObject( state, { creating: true } );
 };
@@ -117,9 +110,6 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.FETCH_DOCUMENTS_DONE: return fetchDocumentsDone( state, action );
         case actionTypes.INIT_DOCUMENTS: return initDocuments( state, action );
         case actionTypes.SIGN_DOCUMENT_SUCCESS: return signDocumentDone( state, action );
-        case actionTypes.SHARE_DOCUMENT_INIT: return shareDocumentInit( state, action );
-
-        
 
 
         

@@ -132,7 +132,3 @@ export function* signDocument(action){
     }
 
 }
-
-export function* shareDocument(action){
-    
-}

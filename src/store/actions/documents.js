@@ -1,30 +1,6 @@
 
 import * as actionTypes from './actionTypes';
 
-
-
-
-export const shareDocumentInit = () => {
-    return {
-        type: actionTypes.SHARE_DOCUMENT_INIT
-    }
-}
-
-export const shareDocument = (data) => {
-    return {
-        type: actionTypes.SHARE_DOCUMENT,
-        data: data
-    }
-}
-
-export const shareDocumentSuccess = (data) => {
-    return {
-        type: actionTypes.SHARE_DOCUMENT,
-        documentToShare: data
-    }
-}
-
-
 export const signDocumentSuccess = () => {
     return {
         type: actionTypes.SIGN_DOCUMENT_SUCCESS
