@@ -14,6 +14,7 @@ const fetchLinkedDidsDone = ( state, action ) => {
 };
 
 const initDids = ( state, action ) => {
+    console.log('cleann dids')
     return updateObject( state, { identities: [], loading: true  } );
 };
 const fetchLinkedDidsSuccess = ( state, action ) => {
@@ -22,8 +23,7 @@ const fetchLinkedDidsSuccess = ( state, action ) => {
     dids.push(action.orderData)
     console.log('new dids',dids)
     return updateObject( state, {
-        identities: dids, 
-        loading: true } );
+        identities: dids} );
 };
 
 const createIdentitySuccess = ( state, action ) => {
@@ -37,8 +37,7 @@ const createIdentitySuccess = ( state, action ) => {
     // }
 
     return updateObject( state, {
-        identities: dids, 
-        loading: true } );
+        identities: dids} );
 };
 
 const createIdentitiesError = ( state, action ) => {

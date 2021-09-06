@@ -10,7 +10,6 @@ import Spinner from './../../components/UI/Spinner/Spinner';
 import * as actions from './../../store/actions/index';
 import words from "random-words"
 import sha256 from "js-sha256"
-
 const Signup = () => {
     let cypher_words = words({ min: 5, max: 5 ,join: ' '})
 

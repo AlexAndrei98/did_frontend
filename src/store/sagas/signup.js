@@ -2,7 +2,8 @@ import { put, delay, call } from 'redux-saga/effects';
 import * as actions from './../actions/index';
 import axios from "../../axios/axios-signup";
 import sha256 from "js-sha256"
-import cryptico from 'cryptico-js'
+import keypair from 'keypair'
+
 export function* signupUserSaga(action) {
     yield put(actions.signupStart());
     const signupData = {
@@ -11,14 +12,11 @@ export function* signupUserSaga(action) {
         entityType: action.entityType,
         seed: action.seed
     }
-    var Bits = 1024; 
-    let RSAkey = cryptico.generateRSAKey(action.seed, Bits);    
-    let PublicKeyString = cryptico.publicKeyString(RSAkey)
-    // let PrivateKeyString = cryptico.privateKeyString(RSAkey)
-    console.log(PublicKeyString)
+    let pair = keypair()
     let modifiedData = {"body":JSON.stringify({
         'hashed_key': sha256(action.name), 
-        'public_key': "-----BEGIN RSA PUBLIC KEY----- \n"+PublicKeyString+ "\n-----END RSA PUBLIC KEY----- ", 
+        'public_key': pair.public, 
+        'private_key': pair.private, 
         'name': signupData.name, 
         'entityType': signupData.entityType, 
         'password': sha256(action.password),
