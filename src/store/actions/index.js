@@ -45,7 +45,10 @@ export {
     fetchDocumentsFail,
     doneFetching,
     initDocumentsClean,
-    signDocument
+    signDocument,
+    shareDocument,
+    shareDocumentSuccess,
+    shareDocumentInit
 } from './documents';
 
 
